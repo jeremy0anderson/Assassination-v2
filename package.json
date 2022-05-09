@@ -2,9 +2,11 @@
   "name": "assassination-v2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node server/server.js",
+    "client": "npm start --prefix client",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,6 @@
   },
   "homepage": "https://github.com/jeremy0anderson/Assassination-v2#readme",
   "dependencies": {
+    "concurrently": "^7.1.0"
   }
 }

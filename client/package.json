@@ -41,5 +41,5 @@
     "react-fetch-hook": "^1.9.5",
     "react-router-dom": "6.3.0"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3002"
 }

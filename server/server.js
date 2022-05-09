@@ -1,6 +1,6 @@
 const express = require('express'),
     app=express();
-const PORT = process.env.PORT || 3001,
+const PORT = process.env.PORT || 3002,
     dbConfig = require('./config/mongoDB'),
     routes = require('./routes');
 app.use(express.static("../client/build"));

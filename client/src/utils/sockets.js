@@ -1,7 +1,7 @@
 import {io} from 'socket.io-client';
 import {useState, useEffect} from 'react';
 export default function SocketIO(){
-    const socket = io('http://localhost:3001/game',{
+    const socket = io(`${document.location.origin}/game`,{
         transports: ['websocket', 'polling']
     });
     let [players, setPlayers] = useState([]);
@@ -10,6 +10,15 @@ export default function SocketIO(){
             await fetch('/api/players')
                 .then(res => res.json())
                 .then(data =>{
+                    data.map(({username, game_code})=>{
+                        return (
+                            <div key={username} className="player" id={username}>
+                                <label className="player-label">{username}<br/><input type="checkbox"/> </label>
+                                <hr/>
+                                <p className="game-code">{game_code}</p>
+                            </div>
+                        )
+                    })
                     setPlayers(data);
                 })
         }
@@ -18,12 +27,7 @@ export default function SocketIO(){
 
     return(
         <div>
-            {players.map(({username, game_code})=>{
-                return (
-                    <div key={username}>
-                    <label className="player-label">{username}<br/><input type="checkbox"/> </label>
-                </div>);
-            })}
+            {players}
         </div>
     )
 }
