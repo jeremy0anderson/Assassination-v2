@@ -23,21 +23,25 @@ const events = {
     Post: (req, res)=>{
         if (!req.body.password) {
             Players.create({
-                username: req.body.username,
-                game_code: req.body.game_code,
+                username: req.params.username,
+                game_code: req.params.game_code,
             }).then(playerData => {
-                res.json(playerData);
+                if (playerData)
+                    res.redirect("/")
+                else res.json({message: "error creating user"})
             })
         } else if (req.body.password){
             Players.create({
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                username: req.body.username,
-                email: req.body.email,
-                password: req.body.password,
+                first_name: req.params.first_name,
+                last_name: req.params.last_name,
+                username: req.params.username,
+                email: req.params.email,
+                password: req.params.password,
                 game_code: Math.random().toString(36).slice(2,8)
             }).then(playerData => {
-                res.json(playerData);
+                console.log(playerData);
+                if (playerData) res.redirect("/");
+                else res.json({message: "error creating user"});
             })
         }
     },

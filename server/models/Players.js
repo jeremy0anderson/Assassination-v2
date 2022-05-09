@@ -42,6 +42,8 @@ playerSchema.pre("save", async function(next) {
         return next(error);
     }
 });
+playerSchema.methods.verifyPassword = function(password){
+    return bcrypt.compareSync(password, this.password);
+}
 const Players = model('players', playerSchema);
-
 module.exports = Players;

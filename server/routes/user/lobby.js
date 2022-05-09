@@ -7,7 +7,7 @@ router.get('/', (req, res)=>{
 })
 router.get('/:gameCode', (req, res)=> {
     const io = req.app.get('io');
-    let gameNSP = io.of(`/${req.params.gameCode}`);
+    let gameNSP = io.of('/game');
     gameNSP.on('connection', (socket)=>{
         console.log(socket.id);
     })
@@ -32,6 +32,12 @@ router.get('/:gameCode', (req, res)=> {
     res.json(activeUsers);
 });
 
-
+router.get('/', (req, res)=>{
+    const io = req.app.get('io');
+    const gameNSP = io.of("/game");
+    gameNSP.on('connection', (socket)=>{
+        console.log(socket.id);
+    })
+})
 module.exports=router;
 

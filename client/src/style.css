@@ -1,0 +1,233 @@
+/* universal selector */
+/* removes default margin and padding from everything */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Merriweather', serif;
+    line-height: 200%;
+}
+
+:root {
+    --black: #1E1E24;
+    --white: #F7F7FF;
+    --blue: #2274A5;
+    --red: #A92335;
+    --green: #588157;
+    --yellow: #E3B505;
+}
+/* universal selector */
+body{
+    background: var(--black);
+    text-align: center;
+}
+/* utility classes */
+.background-black {
+    background-color: var(--black) !important;
+}
+
+.background-white {
+    background-color: var(--white) !important;
+}
+
+.background-red {
+    background-color: var(--red) !important;
+}
+
+.background-blue {
+    background-color: var(--blue) !important;
+}
+
+.background-green {
+    background-color: var(--green);
+}
+
+.background-yellow {
+    background-color: var(--yellow);
+}
+
+.text-white {
+    color: var(--white) !important;
+}
+
+.text-red {
+    color: var(--red) !important;
+}
+
+.text-blue {
+    color: var(--blue) !important;
+}
+
+.text-black {
+    color: var(--black) !important
+}
+
+.text-green {
+    color: var(--green) !important;
+}
+
+.text-yellow {
+    color: var(--yellow) !important;
+}
+/* utility classes */
+
+/* buttons */
+#host, #join, #submit, #display, #hide, #banish-submit, #start-game, #cancel-game, #auth-button {
+    border: none !important;
+    font-family: 'Merriweather', serif;
+    color: var(--white);
+}
+/* buttons */
+
+/* navbar */
+#navigation {
+    justify-content: center;
+}
+
+#navigation-img {
+    width: 400px;
+    margin: 15px;
+}
+/* navbar */
+
+/* login hero */
+
+#login-crown {
+    max-height: 50px;
+    max-width: 900px;
+}
+
+.hero p a {
+    color: var(--white);
+}
+
+/* login hero */
+
+/* left column */
+#homepage-buttons {
+    margin-top: 20px !important;
+}
+
+#timer-label {
+    font-size: 20px;
+    margin-top: 0;
+}
+/* left column */
+
+
+/* right column */
+#right-column {
+    padding: 2rem !important;
+}
+
+h3 {
+    font-size: 30px;
+    font-family: 'MedievalSharp', cursive;
+    margin-top: 20px;
+}
+
+#story, #game-instructions, #role-explanation, #core-roles {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+#role-explanation {
+    list-style: circle;
+}
+
+#banish {
+    margin: 0% 4% 4% 4%;
+}
+
+#king-question {
+    font-size: 20px;
+}
+
+.card {
+    margin: 5px;
+}
+/* right column */
+
+/* footer style */
+footer {
+    font-size: 12px;
+}
+/* footer style */
+
+/* wait list CSS */
+#page {
+    height: 100vh;
+    padding-left: 0;
+    margin: 0;
+}
+
+#container-game-code {
+    margin: 0 auto;
+}
+
+#player-list {
+    height: 60%;
+}
+
+#start-game {
+    margin: 0 auto;
+}
+
+#game-info-pannel {
+    height: 80vh;
+}
+
+#game-info-menu {
+    border-bottom-style:solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.width {
+    width: 100%;
+}
+/* wait list CSS */
+
+@media screen and (min-width: 768px) {
+    /* applies to screens above 768px */
+
+    #navigation {
+        top: 0;
+        position: sticky;
+        position: -webkit-sticky;
+        z-index: 999;
+    }
+
+    #left-column {
+        padding: 0.75rem;
+    }
+
+    #right-column {
+        padding: 0.75rem;
+        height: 78vh;
+        overflow: scroll;
+    }
+
+    #banish {
+        margin: 0;
+    }
+}
+
+.form-wrapper{
+    max-width: fit-content;
+    display: inline-flex;
+    align-self: center;
+}
+.game-code{
+    font-size: xx-large;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+.sections{
+    display: flex;
+}
+
+.checkbox{
+    margin-right: 8px;
+}
