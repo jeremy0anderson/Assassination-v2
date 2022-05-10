@@ -5,8 +5,4 @@ const roomSchema = new Schema({
         type: Schema.Types.Array,
         ref: "Players"
     },
-    rooms: {
-        type: Schema.Types.Array,
-        ref: "Players"
-    }
 })

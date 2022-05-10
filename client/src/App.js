@@ -7,7 +7,7 @@ import {Register, RegisterTop} from './pages/partials/register';
 import Navbar from './pages/partials/navbar';
 import {Link, Route, Routes, Redirect} from 'react-router-dom';
 import SocketIO from './utils/sockets';
-
+import {HostLobby} from './pages/lobby';
 function App() {
     // let {isLoading, error, data} = useFetch("/api/players");
     // if (isLoading)
@@ -45,7 +45,7 @@ function App() {
             <Routes>
                 <Route exact path="/" element={<Home/>}/>
                 <Route exact path="/register" element={[<Navbar/>,<RegisterTop/>,<Register/>]}/>
-                <Route exact path="/lobby" element={<SocketIO/>}/>
+                <Route exact path="/lobby" element={<HostLobby/>}/>
             </Routes>
   );
 }

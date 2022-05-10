@@ -1,4 +1,4 @@
-const {Hosts} = require('../../models');
+const {Players} = require('../../models');
 const bcrypt = require('bcrypt');
 const events = {
     Get: (req, res)=>{
