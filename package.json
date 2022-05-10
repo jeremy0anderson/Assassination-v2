@@ -4,9 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "server": "node server/server.js",
-    "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\""
   },
   "repository": {
     "type": "git",
