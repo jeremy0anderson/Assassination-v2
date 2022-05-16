@@ -1,15 +1,33 @@
 const express = require('express'),
-    app=express();
-    require('dotenv').config();
-const PORT = process.env.PORT || 3001,
+    app=express(),
+    {ApolloServer} = require('apollo-server-express'),
+    PORT = process.env.PORT || 4007,
     mongoose = require('./config/mongoDB'),
+    connection = mongoose.connection,
     routes = require('./routes'),
     session = require('express-session'),
-    MongooseStore = require('mongoose-express-session')(session.Store);
+    MongooseStore = require('mongoose-express-session')(session.Store),
+    cors = require('cors'),
+    path = require('path');
 
-app.use(express.static("../client/build"));
+    require('dotenv').config();
+
+    const graphQLServer = new ApolloServer({
+    typeDefs: require('./schemas/typeDefs'),
+    resolvers: require('./schemas/resolvers')
+})
+
+const gqlServer = async() =>{
+    await graphQLServer.start();
+    graphQLServer.applyMiddleware({app,...routes})
+}
+
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
+app.use(cors({
+    origin: "*",
+}))
 app.use(session({
     name: "sid",
     secret: "secret",
@@ -17,24 +35,28 @@ app.use(session({
         maxAge: 1000*60*60*24,
         secure: process.env.NODE_ENV==="production"
     },
-    proxy: process.env.NODE_ENV==="production",
     resave: false,
     saveUninitialized: false,
     store: new MongooseStore({
-        mongoose: mongoose,
-    })
+        connection: mongoose
+        })
 }));
 
 app.use(routes);
-const server = require('http').createServer(app);
+const mainServer = require('http').createServer(app);
 const {Server} = require('socket.io');
-const io = new Server(server,{
-    transports: ['websocket', 'polling']
+const io = new Server(mainServer,{
+    transports: ['websocket'],
+    cors: {
+        origin: "*"
+    }
 });
 app.set('io', io);
 
-mongoose.connection.once("open", ()=>{
-    server.listen(PORT, ()=>{
+connection.once("open", ()=>{
+    mainServer.listen({port: PORT}, ()=>{
         console.log('listening on ' + PORT)
     })
 });
+
+module.exports = {graphQLServer, app};

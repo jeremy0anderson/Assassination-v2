@@ -13,7 +13,12 @@ const playerSchema = new Schema({
     first_name: String,
     last_name: String,
     email: String,
-    password: String
+    password: String,
+    is_host: Boolean,
+    role: {
+        type: Schema.Types.ObjectId,
+        ref: "Roles"
+    }
 },{
     toJSON:{
         virtuals: true,
@@ -21,19 +26,27 @@ const playerSchema = new Schema({
     }
 });
 playerSchema.virtual('host').get(function(){
-    if (this.password){
+    if (this.password) {
         return {
             first_name: this.first_name,
             last_name: this.last_name,
             email: this.email,
             username: this.username,
             game_code: this.game_code,
-            is_host: true
+        }
+    }
+})
+playerSchema.virtual('player').get(function(){
+    if (!this.password){
+        return {
+            username: this.username,
+            game_code: this.game_code
         }
     }
 })
 playerSchema.pre("save", async function(next) {
     if (!this.isModified("password")) return next();
+    // this.game_code = this.game_code.toUppercase();
     try {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
@@ -42,7 +55,7 @@ playerSchema.pre("save", async function(next) {
         return next(error);
     }
 });
-playerSchema.methods.verifyPassword = function(password){
+playerSchema.statics.verifyPassword = function(password){
     return bcrypt.compareSync(password, this.password);
 }
 const Players = model('players', playerSchema);

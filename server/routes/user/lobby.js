@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {user} = require('../../controllers');
-const {Hosts, Players, Active} = require('../../models');
+const {Players, Active} = require('../../models');
 let activeUsers = [];
 router.get('/', (req, res)=>{
     user.lobbyEvents.GetByGame(req, res);
@@ -11,13 +11,10 @@ router.get('/:gameCode', (req, res)=> {
     gameNSP.on('connection', (socket)=>{
         console.log(socket.id);
     })
-    Hosts.find({
+    Players.find({
         game_code: req.params.gameCode
-    }).then(hosts => {
-        activeUsers.push({
-            username: hosts.username,
-            game_code: hosts.game_code
-        });
+    }).then(players => {
+       players.map()
     });
     Players.find({
         game_code: req.params.gameCode
@@ -35,7 +32,7 @@ router.get('/:gameCode', (req, res)=> {
 router.get('/', (req, res)=>{
     const io = req.app.get('io');
     const gameNSP = io.of("/game");
-    gameNSP.on('connection', (socket)=>{
+    io.on('connection', (socket)=>{
         console.log(socket.id);
     })
 })

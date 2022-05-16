@@ -1,7 +1,7 @@
-const hostEvents = require('./hostsHandler');
 const playerEvents = require('./playersHandler');
+const authEvents = require('./authorize');
 const api = {
-    hostEvents,
-    playerEvents
+    playerEvents,
+    authEvents
 }
 module.exports = api;

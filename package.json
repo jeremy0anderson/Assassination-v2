@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
+    "start": "cd server && node server.js",
     "dev": "concurrently \"cd server && nodemon server.js\" \"cd client && npm start\""
   },
   "repository": {
@@ -21,6 +21,8 @@
   "dependencies": {
     "concurrently": "^7.1.0",
     "dotenv": "^16.0.0",
-    "mongoose-express-session": "^0.0.5"
+    "mongoose-express-session": "^0.0.5",
+    "nodemon": "^2.0.16",
+    "express": "^4.18.1"
   }
 }

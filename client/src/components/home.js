@@ -1,4 +1,8 @@
+import 'react-bulma-components';
+
+
 export default function Homepage(){
+
     return(
         <div className="sections">
             <section className="column background-black pl-6 pr-6" id="left-column">
