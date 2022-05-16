@@ -2,7 +2,7 @@
   "name": "assassination-v2",
   "version": "1.0.0",
   "description": "",
-  "main": "./server/server.js",
+  "main": "",
   "scripts": {
     "start": "cd server && node server.js",
     "dev": "concurrently \"cd server && nodemon server.js\" \"cd client && npm start\""
