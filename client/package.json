@@ -45,5 +45,5 @@
     "react-validation": "^3.0.7",
     "validator": "^13.7.0"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "https://assassination-v2.herokuapp.com/"
 }
