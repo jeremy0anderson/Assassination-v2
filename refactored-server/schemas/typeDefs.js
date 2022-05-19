@@ -17,20 +17,20 @@ const typeDefs = gql`
   }
 
   type Auth {
-    token: ID!
-    player: Players
+    token: String!
   }
 
   type Query{
-    singlePlayer(username:String!): Players
+    player(username:String!): Players
     players: [Players]
     game_code(game_code: String!): [Players]
   }
 
   type Mutation {
     addPlayer(username: String!, game_code: String!): ActivePlayers
-    registerPlayer(first_name: String!, last_name: String!, username: String!, email: String!, password: String!): Players  
-    login(email: String!, password: String!): Auth
+    registerHost(first_name: String!, last_name: String!, username: String!, email: String!, password: String!): Players
+    registerPlayer(username: String!,game_code: String!): Players
+    login(username: String!, password: String!): Auth
   }
 `;
 

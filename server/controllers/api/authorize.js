@@ -2,7 +2,6 @@ const {Players} = require('../../models');
 const {signToken, verifyToken} = require('../../utils/auth');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
-
 const events = {
     postLogin: (req, res) =>{
         Players.findOne({
@@ -13,15 +12,19 @@ const events = {
             }
             let validPW = bcrypt.compareSync(req.body.password, playerData.password)
             if (validPW) {
-            signToken({
+            const token = signToken({
                 username: playerData.username,
                 game_code: playerData.game_code,
                 _id: playerData._id
-            },req, res);
+            });
+            res.status(200).json({accessToken: token});
             } else {
                 res.status(400).json({message: "Incorrect password"})
             }
         })
+    },
+    registerPost:(req, res)=>{
+
     },
     postRegister: (req, res)=>{
         Players.create({
@@ -32,11 +35,12 @@ const events = {
             password: req.body.password
         }).then(playerData=>{
             console.log(playerData);
-            signToken({
+            const token = signToken({
                     username: playerData.username,
                     game_code: playerData.game_code,
                     _id: playerData._id
-            },req, res);
+            });
+            res.status(200).json({accessToken: token})
         })
     },
     verify: (req, res)=>{

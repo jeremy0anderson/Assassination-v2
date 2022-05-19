@@ -2,14 +2,34 @@ import navLogo from '../lib/images/assassination_navbar.png';
 import {
     Navbar
 } from 'react-bulma-components';
+import {io} from 'socket.io-client';
+import {useEffect, useState} from "react";
 export default function Nav(){
+    const [socket, setSocket] = useState(io('/', {transports:['websocket']}));
+    useEffect(()=>{
+        setSocket(io("http://localhost:3001/game", {
+            transports: ['websocket'],
+            autoConnect: true
+        }));
+        socket.connect();
+        socket.on('connected', ()=>{
+            console.log(socket.id);
+            socket.emit('react', (c)=>{
+                return c = "connected"
+            });
+        })
+
+    }, [])
     return(
         <Navbar className="navbar background-black has-text-centered" id="navigation">
         <Navbar.Brand>
             <a href="/"> <img src={navLogo}/></a>
         </Navbar.Brand>
+            <div className="socket">{socket.id}</div>
         </Navbar>
 
+    )
+}
 
 
 
@@ -40,5 +60,3 @@ export default function Nav(){
         //         </nav>
         //     </div>
         // </div>
-    )
-}

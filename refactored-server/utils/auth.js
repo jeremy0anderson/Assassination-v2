@@ -12,15 +12,19 @@ module.exports = {
       },
     verifyToken: function(token){
       try{
-            jwt.verify(token, process.env.JWT_SECRET,{},(err, decoded)=>{
+            jwt.verify(token,process.env.JWT_SECRET,{}
+            ,(err, decoded)=>{
                 if (err) throw err;
                 console.log(decoded);
-                return decoded;
+                return {username: decoded.username,
+                        game_code: decoded.game_code};
             })
       } catch(e){
             if (e)
                 throw e;
       }
+    },
+    decodeToken: (token)=>{
     }
 };
 

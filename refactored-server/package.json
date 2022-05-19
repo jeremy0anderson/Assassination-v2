@@ -1,7 +1,6 @@
 {
   "name": "assassination-v2",
   "version": "1.0.0",
-  "description": "",
   "scripts": {
     "start": "cd server && node server.js",
     "dev": "concurrently \"cd server && nodemon server.js\" \"cd client && npm start\""
@@ -19,12 +18,18 @@
   "homepage": "https://github.com/jeremy0anderson/Assassination-v2#readme",
   "dependencies": {
     "apollo-server": "^3.7.0",
+    "bcrypt": "^5.0.1",
     "concurrently": "^7.1.0",
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.3",
     "mongoose-express-session": "^0.0.5",
-    "nodemon": "^2.0.16"
-  }
+    "nodemon": "^2.0.16",
+    "socket.io": "^4.5.1"
+  },
+  "main": "_server.js",
+  "description": ""
 }

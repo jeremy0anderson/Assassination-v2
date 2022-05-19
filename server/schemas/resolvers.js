@@ -1,4 +1,4 @@
-const {Players} = require('../models');
+const {Players, ActivePlayers} = require('../models');
 const {signToken} = require("../utils/auth");
 const verify = Players.schema.methods.verifyPassword;
 const jwt = require('jsonwebtoken');
@@ -7,20 +7,36 @@ require('dotenv').config();
 const resolvers = {
     Query: {
         players: async()=>{
-            return Players.find().populate("game_code")
+             return Players.find({});
         },
-        player: async({ username })=>{
-            return Players.findOne({username}).populate("game_code");
+        singlePlayer: async(parent, args)=>{
+             return Players.findOne({username: args.username});
+        },
+        game_code: async(parent, args)=>{
+            return Players.find({game_code: args.game_code});
         }
     },
     Mutation: {
         addPlayer: async(parent, args)=>{
-            const player = await Players.create(args)
-                .then(()=>{
-                    const token = signToken(player)
-                    return {token, player}
+            return await ActivePlayers.create({
+                username: args.username,
+                game_code: args.game_code
+            })
+                .then((playerData)=>{
+                    const token = signToken({
+                        game_code: playerData.game_code,
+                        username: playerData.username,
+                        _id: playerData._id})
+                    return {playerData}
                 });
         },
+        registerPlayer: async(parent, args) =>{
+            await Players.create({
+
+            })
+                .then(activePlayerData=>{})
+        },
+
         login: async ({username, password})=>{
             const player = await Players.findOne({username})
                 .then((playerData)=> {
@@ -47,3 +63,4 @@ const resolvers = {
 
     }
 }
+module.exports=resolvers;

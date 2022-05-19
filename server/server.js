@@ -1,62 +1,53 @@
-const express = require('express'),
-    app=express(),
-    {ApolloServer} = require('apollo-server-express'),
-    PORT = process.env.PORT || 4007,
+require('dotenv').config();
+const
+    express = require('express'),
+    app = express(),
+    path = require('path'),
+    PORT = process.env.PORT || 3001,
+
     mongoose = require('./config/mongoDB'),
-    connection = mongoose.connection,
     routes = require('./routes'),
-    session = require('express-session'),
-    MongooseStore = require('mongoose-express-session')(session.Store),
-    cors = require('cors'),
-    path = require('path');
 
-    require('dotenv').config();
+    {typeDefs, resolvers} = require('./schemas'),
+    {SocketConnection} = require('./utils/socketIO'),
+    {Server} = require('socket.io');
 
-    const graphQLServer = new ApolloServer({
-    typeDefs: require('./schemas/typeDefs'),
-    resolvers: require('./schemas/resolvers')
-})
 
-const gqlServer = async() =>{
-    await graphQLServer.start();
-    graphQLServer.applyMiddleware({app,...routes})
-}
+// const graphQLServer = new ApolloServer({
+//     typeDefs: require('./schemas').typeDefs,
+//     resolvers: require('./schemas').resolvers
+// });
+//function to start graphql server for api calls
 
-app.use(express.static(path.resolve(__dirname, "./client/build")));
-app.use(express.urlencoded({extended: true}))
-app.use(express.json());
-app.use(cors({
-    origin: "*",
-}))
-app.use(session({
-    name: "sid",
-    secret: "secret",
-    cookie: {
-        maxAge: 1000*60*60*24,
-        secure: process.env.NODE_ENV==="production"
-    },
-    resave: false,
-    saveUninitialized: false,
-    store: new MongooseStore({
-        connection: mongoose
+
+// io.on('connection', (socket)=>{
+//     const ws = new SocketConnection(io, socket);
+//     console.log(socket.id  + " connected");
+// });
+
+const { ApolloServer } = require('apollo-server-express');
+const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
+const server = new ApolloServer({
+    typeDefs: typeDefs,
+    resolvers: resolvers,
+    // plugins: [ApolloServerPluginDrainHttpServer({httpServer: })],
+    // csrfPrevention: true,
+    introspection: true
+});
+
+//connect to mongoDB
+mongoose.connection.once("open", async ()=>{
+    //wait for graphql server to start, use all middleware, listen on port
+    await server.start();
+    server.applyMiddleware({app});
+        app.use(express.static(require('path').resolve(__dirname, "./client/build")));
+        app.use(express.urlencoded({extended: true}))
+        app.use(express.json());
+        app.use(require('cors')());
+
+    const httpServer = require('http').createServer(app);
+
+        httpServer.listen({port: PORT}, () => {
+            console.log("listening on " + PORT)
         })
-}));
-
-app.use(routes);
-const mainServer = require('http').createServer(app);
-const {Server} = require('socket.io');
-const io = new Server(mainServer,{
-    transports: ['websocket'],
-    cors: {
-        origin: "*"
-    }
 });
-app.set('io', io);
-
-connection.once("open", ()=>{
-    mainServer.listen({port: PORT}, ()=>{
-        console.log('listening on ' + PORT)
-    })
-});
-
-module.exports = {graphQLServer, app};
