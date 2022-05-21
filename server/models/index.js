@@ -1,2 +1,4 @@
 const Players = require('./Players');
-module.exports = {Players}
+const ActivePlayers = require('./Active');
+
+module.exports = {Players, ActivePlayers}

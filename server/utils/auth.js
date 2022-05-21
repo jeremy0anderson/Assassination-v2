@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 module.exports = {
-  signToken: function ({game_code, username, _id }) {
+  signToken: async function ({game_code, username, _id }) {
     const payload = {game_code, username, _id}
-      return jwt.sign({data:payload}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXP},
+      return jwt.sign({data:payload}, "secret", {},
 (err, token) => {
             if (err) throw err;
             return token;

@@ -3,7 +3,7 @@ const
     express = require('express'),
     app = express(),
     path = require('path'),
-    PORT = process.env.PORT || 3001,
+    PORT = process.env.PORT || 4000,
 
     mongoose = require('./config/mongoDB'),
     routes = require('./routes'),
@@ -11,6 +11,7 @@ const
     {typeDefs, resolvers} = require('./schemas'),
     {SocketConnection} = require('./utils/socketIO'),
     {Server} = require('socket.io');
+
 
 
 // const graphQLServer = new ApolloServer({
@@ -27,27 +28,37 @@ const
 
 const { ApolloServer } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
-const server = new ApolloServer({
-    typeDefs: typeDefs,
-    resolvers: resolvers,
-    // plugins: [ApolloServerPluginDrainHttpServer({httpServer: })],
-    // csrfPrevention: true,
-    introspection: true
-});
 
-//connect to mongoDB
-mongoose.connection.once("open", async ()=>{
-    //wait for graphql server to start, use all middleware, listen on port
-    await server.start();
-    server.applyMiddleware({app});
-        app.use(express.static(require('path').resolve(__dirname, "./client/build")));
-        app.use(express.urlencoded({extended: true}))
-        app.use(express.json());
-        app.use(require('cors')());
-
+async function startApolloServer(typeDefs, resolvers) {
     const httpServer = require('http').createServer(app);
-
-        httpServer.listen({port: PORT}, () => {
-            console.log("listening on " + PORT)
-        })
+    const io = new Server(httpServer, {
+        transports: ['websocket'],
+        cors: {
+            origin: "*"
+        }
+    })
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        csrfPrevention: true,
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+        context: {
+            cors: true
+        }
+    });
+    await server.start();
+    app.use(express.static(require('path').resolve(__dirname, "./client/build")));
+    app.use(express.urlencoded({extended: true}))
+    app.use(express.json());
+    app.use(require('cors')({
+        origin:"*"
+    }));
+    server.applyMiddleware({ app });
+    await new Promise(resolve => httpServer.listen({ port: PORT}, resolve));
+    console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+}
+//connect to mongoDB
+mongoose.connection.once("open", ()=>{
+    //listen on port, start apollo/graphql server
+    startApolloServer(typeDefs, resolvers);
 });

@@ -1,11 +1,29 @@
-import crown from '../lib/images/crown.png';
+import crown from './lib/images/crown.png';
 import {Component} from 'react';
 import {registerPlayer} from './Auth';
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import {Form, Button} from "react-bulma-components";
+import {client} from '../index';
+// import {gql} from
 import validate from "validator";
-
+import {gql} from "@apollo/client";
+const required = value => {
+    if (!value) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                Required!
+            </div>
+        );
+    }
+};
+const email = value => {
+    if (!validate.default.isEmail(value)) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                This is not a valid email.
+            </div>
+        );
+    }
+};
 export class Register extends Component {
     constructor(props) {
         super(props);
@@ -55,46 +73,26 @@ export class Register extends Component {
 
     handleRegister(e) {
         e.preventDefault();
-        this.setState({
-            message: "",
-            successful: false
-        });
-        this.form.validateAll();
-        if (this.checkBtn.context._errors.length === 0) {
-            registerPlayer(this.state.first_name, this.state.last_name, this.state.username, this.state.email, this.state.password)
-                .then(response => {
-                    this.setState({
-                        message: response.data.message,
-                        successful: true
-                    });
-                },error =>{
-                    if(error)
-                        throw error;
-                })
+        client.mutate({
+            mutation: gql`
+        mutation{
+            addPlayer(username: $username, game_code: $game_code)
         }
-    }
+#        } ($first_name: String!, $last_name:String!,$username: String!, $email: String!,$password: String!){
+#            registerPlayer(first_name: $first_name,last_name: $last_name, username: $username, email: $email, password: $password){
+#                username, game_code
+#            }
+       `}).then(newPlayer => {
+            console.log(JSON.stringify(newPlayer.data));
+        }).catch(err=>{
+            if (err) throw err;
+        })
+        }
     render(){
-        const required = value => {
-            if (!value) {
-                return (
-                    <div className="alert alert-danger" role="alert">
-                        Required!
-                    </div>
-                );
-            }
-        };
-        const email = value => {
-            if (!validate.default.isEmail(value)) {
-                return (
-                    <div className="alert alert-danger" role="alert">
-                        This is not a valid email.
-                    </div>
-                );
-            }
-        };
         return (
-            <Form onSubmit={this.handleRegister} ref={c => {this.form = c;}}>
-                <div className="field"><Input
+            <form onSubmit={this.handleRegister}>
+                <Form.Field className="field">
+                    <Form.Input
                         name="first_name"
                         type="text"
                         placeholder="First Name"
@@ -102,9 +100,9 @@ export class Register extends Component {
                         validations={[required]}
                         onChange={this.onChangeFirstName}
                         value={this.state.first_name}
-                />
-                </div>
-                <div className="field"><Input
+                    />
+                </Form.Field>
+                <Form.Field className="field"><Form.Input
                         name="last_name"
                         type="text"
                         placeholder="Last Name"
@@ -113,8 +111,8 @@ export class Register extends Component {
                         onChange={this.onChangeLastName}
                         value={this.state.last_name}
                 />
-                </div>
-                <div className="field"><Input
+                </Form.Field>
+                <Form.Field className="field"><Form.Input
                         name="username"
                         type="text"
                         placeholder="Username"
@@ -123,8 +121,8 @@ export class Register extends Component {
                         onChange={this.onChangeUsername}
                         value={this.state.username}
                 />
-                </div>
-                <div className="field"><Input
+                </Form.Field>
+                <Form.Field className="field"><Form.Input
                         name="email"
                         type="text"
                         placeholder="Email"
@@ -133,8 +131,8 @@ export class Register extends Component {
                         onChange={this.onChangeEmail}
                         value={this.state.email}
                 />
-                </div>
-                <div className="field"><Input
+                </Form.Field>
+                <Form.Field className="field"><Form.Input
                         name="password"
                         type="password"
                         placeholder="Password"
@@ -143,19 +141,14 @@ export class Register extends Component {
                         onChange={this.onChangePassword}
                         value={this.state.password}
                 />
-                </div>
-                <div className="field"><Input
-                    className="button is-block is-info is-large is-fullwidth fa fa-sign-in"
-                    type="submit"
-                    value="Sign Up"
-                />
-
-                </div>
-                <div className="field"><CheckButton
-                        style={{ display: "none" }}
-                        ref={c => {this.checkBtn = c;}}/>
-                </div>
-            </Form>
+                </Form.Field>
+                <Form.Field className="field"><Button
+                        className="button is-block is-info is-large is-fullwidth fa fa-sign-in"
+                        type="submit">
+                        Sign Up
+                    </Button>
+                </Form.Field>
+            </form>
         );
     }
 }

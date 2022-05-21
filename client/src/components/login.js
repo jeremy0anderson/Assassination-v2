@@ -1,123 +1,145 @@
-import crown from '../lib/images/crown.png';
-import axios from 'axios';
-import {Component, useState, useEffect} from 'react';
-import {loginPlayer} from './Auth';
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import validate from "validator";
+import crown from './lib/images/crown.png';
+import {useState, useEffect} from 'react';
+import {Form} from 'react-bulma-components'
+import {gql, useMutation, useQuery} from '@apollo/client'
 const API_URL = "/api/authorize";
-// export default function Login(){
-//     let [login, setLogin] = useState(null)
-//     return(
-//         <div className="login-form-container">
-//                 <section className="container has-text-centered text-white" key={null}>
-//                     <div className="column is-4 is-offset-4">
-//                         <h3 className="title has-text-white"/>
-//                         <hr className="login-hr"/>
-//                         <p className="subtitle has-text-white"/>
-//                         <div className="box">
-//                             <figure className="avatar">
-//                                 <img src={crown} id="login-crown" alt="login-crown"/>
-//                             </figure>
-//                         </div>
-//                     </div>
-//                 </section>
-//                 <form method="post" id="login-form" className="register-form" action="/api/authorize/login" target="_self">
-//                     <div className="field">
-//                         <div className="control">
-//                             <input  className="input is-large" type="text" placeholder="Username" name="username" id="username"/>
-//                         </div>
-//                     </div>
-//                     <div className="field">
-//                         <div className="control">
-//                             <input className="input is-large" type="password" placeholder="Password" name="password" id="password"/>
-//                         </div>
-//                     </div>
-//                     <div className="field">
-//                         <input className="checkbox" type="checkbox"/>
-//                         Remember me
-//                     </div>
-//
-//                     <button form="login-form" type="submit" className="button is-block is-info is-large is-fullwidth" id="auth-button">
-//                         <i className="fa fa-sign-in" aria-hidden="true">
-//                             Sign In
-//                         </i>
-//                     </button>
-//                 </form>
-//         </div>
-//     )
-// }
-export function Login(props){
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('')
+export function Login(){
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState('');
+    const [mutationFN, {data}] = useMutation(gql`
+    mutation($username: String!, $password: String!){
+        login(username: $username, password: $password)
+    }`);
 
-    const handleSubmit = (e) => {
+    // useEffect(()=>{
+    //
+    //
+    // }, [setUsername, setPassword])
+    const handleSubmit = (e)=>{
         e.preventDefault();
-        axios.post(`${API_URL}/login`, {
-            username: username,
-            password: password
-        })
-            .then(response => {
-                if (response.data.accessToken) {
-                    localStorage.setItem('username', username);
-                    localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
-                    setTimeout(() => {
-                        document.location.replace('/')
-                    }, 2000)
-                }
-            });
+        return mutationFN({
+            variables: {
+                username: username,
+                password: password
+            }
+        }).then(() => console.log(data));
     }
-    const handleUsernameChange = (e)=> {
-        setUsername(e.target.value)
-        console.log(username);
-    }
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        console.log(password);
-    }
-    const required = value => {
-        if (!value) {
-            return (
-                <div className="alert alert-danger" role="alert">
-                    Required!
-                </div>
-            );
-        }
-    };
 
-    return (
-        <Form onSubmit={handleSubmit}>
-            <div className="field"><Input
+    return(
+        <form onSubmit={handleSubmit}>
+            <Form.Field className="field"><Form.Input
                 name="username"
                 type="text"
                 placeholder="Username"
                 className="input is-large control"
-                validations={[required]}
-                onChange={handleUsernameChange}
-                value={username}
+                onChange={(e)=>{
+                    setUsername(e.target.value)
+                }}
             />
-            </div>
-            <div className="field"><Input
+            </Form.Field>
+            <Form.Field className="field"><Form.Input
                 name="password"
                 type="password"
                 placeholder="Password"
                 className="input is-large control"
-                validations={[required]}
-                onChange={handlePasswordChange}
-                value={password}
+                onChange={(e)=>{
+                    setPassword(e.target.value);
+                }}
             />
-            </div>
-            <div className="field"><Input
+            </Form.Field>
+            <Form.Field className="field"><Form.Input
                 className="button is-block is-info is-large is-fullwidth fa fa-sign-in"
                 type="submit"
                 value="Sign In"
             />
-            </div>
+            </Form.Field>
 
-        </Form>
+        </form>
     )
 }
+
+
+
+
+// export class Login extends Component {
+//     constructor(props) {
+//         super(props);
+//
+//         this.loginMutation = gql`
+//             mutation($username: String!, $password: String!){
+//                 login(username: $username, password: $password)
+//             }`;
+//
+//         this.handleSubmit = this.handleSubmit.bind(this);
+//         this.handleUsernameChange = this.handleUsernameChange.bind(this);
+//         this.handlePasswordChange = this.handleUsernameChange.bind(this);
+//         this.props = props;
+//         this.state = {
+//             username: "",
+//             password: ""
+//         };
+//
+//     }
+//
+//     handleSubmit = (e) => {
+//         e.preventDefault();
+//         const [loginFunction, {loading, err, data}] = useMutation(this.loginMutation)
+//             loginFunction({
+//                 variables: {
+//                    username: this.state.username,
+//                    password: this.state.password
+//                 }
+//             }).then(token => localStorage.setItem('accessToken', JSON.stringify(token)));
+//     }
+//     handleUsernameChange = (e)=> {
+//         this.setState({username:e.target.value})
+//     }
+//     handlePasswordChange = (e) => {
+//         this.setState({password: e.target.value})
+//     }
+//     required = value => {
+//         if (!value) {
+//             return (
+//                 <div className="alert alert-danger" role="alert">
+//                     Required!
+//                 </div>
+//             );
+//         }
+//     };
+//     render() {
+//         return (
+//             <form onSubmit={this.handleSubmit}>
+//                 <Form.Field className="field"><Form.Input
+//                     name="username"
+//                     type="text"
+//                     placeholder="Username"
+//                     className="input is-large control"
+//                     validations={[this.required]}
+//                     onChange={this.handleUsernameChange}
+//                     value={this.username}
+//                 />
+//                 </Form.Field>
+//                 <Form.Field className="field"><Form.Input
+//                     name="password"
+//                     type="password"
+//                     placeholder="Password"
+//                     className="input is-large control"
+//                     validations={[this.required]}
+//                     onChange={this.handlePasswordChange}
+//                     value={this.password}
+//                 />
+//                 </Form.Field>
+//                 <Form.Field className="field"><Form.Input
+//                     className="button is-block is-info is-large is-fullwidth fa fa-sign-in"
+//                     type="submit"
+//                     value="Sign In"
+//                 />
+//                 </Form.Field>
+//
+//             </form>
+//         )
+//     }
+// }
 // export class Login extends Component{
 //     constructor(props){
 //         super(props);

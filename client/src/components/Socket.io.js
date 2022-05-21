@@ -1,14 +1,25 @@
 import {io} from 'socket.io-client';
-import {useState, useEffect} from "react";
+import {useState, useEffect, Component} from "react";
+import "@apollo/client";
+
+export class SocketConnection{
+    constructor(io, socket){
+        this.io = io;
+        this.socket = socket;
+    }
+
+}
+
+
+
 export function SocketHandler(){
     const [socket, setSocket] = useState(null);
     useEffect(() => {
-        const newSocket = io(`http://localhost:3001/game`,{
+        const newSocket = io(`http://localhost:4000/`,{
             transports: ['websocket', 'polling'],
             reconnection: true
         });
         return setSocket(newSocket);
-
     }, [setSocket])
 
     return(

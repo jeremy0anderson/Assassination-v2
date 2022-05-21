@@ -27,7 +27,6 @@ class SocketConnection{
     handleData(value){
         const data = {
             value,
-            time: new Date(Date.now()).toLocaleDateString()
         };
     }
 }

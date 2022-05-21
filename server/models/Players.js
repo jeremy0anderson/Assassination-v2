@@ -6,20 +6,13 @@ const playerSchema = new Schema({
         unique: true,
         required: "Must have a username"
     },
-    game_code: {
-        type: String,
-        required: "must have a valid game code"
-    },
+    game_code: String,
     first_name: String,
     last_name: String,
     email: String,
     password: String,
     is_host: Boolean,
-    role: {
-        type: Schema.Types.ObjectId,
-        ref: "Roles"
-    }
-},{
+}, {
     toJSON:{
         virtuals: true,
         getters: true
@@ -33,19 +26,16 @@ playerSchema.virtual('host').get(function(){
             email: this.email,
             username: this.username,
             game_code: this.game_code,
+            is_host: true
         }
-    }
-})
-playerSchema.virtual('player').get(function(){
-    if (!this.password){
-        return {
-            username: this.username,
-            game_code: this.game_code
-        }
-    }
+    } else return{
+        username: this.username,
+        game_code: this.game_code,
+        is_host: false
+    };
 })
 playerSchema.pre("save", async function(next) {
-    if (!this.isModified("password")) return next();
+    if (!this.isModified("password") || !this.password) return next();
     // this.game_code = this.game_code.toUppercase();
     try {
         const salt = await bcrypt.genSalt(10);

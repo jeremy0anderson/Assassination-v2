@@ -17,10 +17,9 @@ const events = {
                 game_code: playerData.game_code,
                 _id: playerData._id
             });
-            res.status(200).json({accessToken: token});
-            } else {
-                res.status(400).json({message: "Incorrect password"})
+            res.status(200).json({accessToken: token+"fdjsiafejsa"});
             }
+            res.status(400).json({message: "Incorrect password"})
         })
     },
     registerPost:(req, res)=>{

@@ -8,23 +8,14 @@ import {Lobby} from './components/lobby';
 import {Homepage, Nav, Login, Register, SocketHandler} from './components';
 
 function App() {
-    function Home(){
-        return([<Homepage key={Homepage}/>,<SocketHandler key={SocketHandler}/>]);
-    }
-    function Signin(){
-        return[<Nav/>, <Login/>]
-    }
-    function Signup(){
-        return([<Nav/>, <Register/>])
-    }
     return (
         <div className="App" key="App">
             <Nav/>
             <Routes>
-                <Route key="home" path="/" element={<Home/>}/>
-                <Route key="register" path="/register" element={<Signup/>}/>
+                <Route key="home" path="/" element={<Homepage/>}/>
+                <Route key="register" path="/register" element={<Register/>}/>
                 <Route key="lobby" path="/lobby" element={<Lobby/>}/>
-                <Route key="login" path="/login" element={<Signin/>}/>
+                <Route key="login" path="/login" element={<Login/>}/>
             </Routes>
         </div>
   );
