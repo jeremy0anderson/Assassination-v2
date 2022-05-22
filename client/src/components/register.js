@@ -96,7 +96,7 @@ export class Register extends Component {
                         name="first_name"
                         type="text"
                         placeholder="First Name"
-                        className="input is-large control"
+                        className="input is-large control form-input"
                         validations={[required]}
                         onChange={this.onChangeFirstName}
                         value={this.state.first_name}
@@ -106,7 +106,7 @@ export class Register extends Component {
                         name="last_name"
                         type="text"
                         placeholder="Last Name"
-                        className="input is-large control"
+                        className="input is-large control form-input"
                         validations={[required]}
                         onChange={this.onChangeLastName}
                         value={this.state.last_name}
@@ -116,7 +116,7 @@ export class Register extends Component {
                         name="username"
                         type="text"
                         placeholder="Username"
-                        className="input is-large control"
+                        className="input is-large control form-input"
                         validations={[required]}
                         onChange={this.onChangeUsername}
                         value={this.state.username}
@@ -126,7 +126,7 @@ export class Register extends Component {
                         name="email"
                         type="text"
                         placeholder="Email"
-                        className="input is-large control"
+                        className="input is-large control form-input"
                         validations={[required, email]}
                         onChange={this.onChangeEmail}
                         value={this.state.email}
@@ -136,14 +136,14 @@ export class Register extends Component {
                         name="password"
                         type="password"
                         placeholder="Password"
-                        className="input is-large control"
+                        className="input is-large control form-input"
                         validations={[required]}
                         onChange={this.onChangePassword}
                         value={this.state.password}
                 />
                 </Form.Field>
                 <Form.Field className="field"><Button
-                        className="button is-block is-info is-large is-fullwidth fa fa-sign-in"
+                        className="button is-block is-info is-large is-fullwidth fa fa-sign-in form-input"
                         type="submit">
                         Sign Up
                     </Button>

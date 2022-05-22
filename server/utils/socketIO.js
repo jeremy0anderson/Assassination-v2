@@ -1,33 +1,24 @@
-const players =  new Map();
-
 class SocketConnection{
-    players = new  Map();
     constructor(io, socket){
-
         this.io = io;
         this.socket = socket;
-        socket.on('disconnect', (reason)=>{
-            console.log(reason);
-            this.disconnect();
-        })
-        socket.on('data', (data)=>{
-            this.handleData(data)
-        })
 
+        this.socket.on('disconnect', (reason)=>{
+            this.disconnect(reason);
+        });
+
+        this.socket.on('hello', (message)=>{
+            this.handleMessage(message);
+        })
     }
-    connect(){
-        players.set("socket", this.socket);
+    disconnect(reason){
+        console.log(reason);
+        this.io.removeAllListeners();
     }
-    sendData(data){
-        this.io.sockets.emit('data', data);
-    }
-    disconnect(){
-        players.delete(this.socket);
-    }
-    handleData(value){
-        const data = {
-            value,
-        };
+    handleMessage(message){
+        console.log(message)
+        const reply = "Hi back!"
+        this.socket.emit('hello-back', reply);
     }
 }
 function connect(io){

@@ -90,52 +90,97 @@
 //
 //     }
 // }
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {Button, Form,Card, Section} from 'react-bulma-components';
-import {io} from 'socket.io-client';
-import {gql, useQuery} from '@apollo/client';
+import {gql, useQuery, useMutation} from '@apollo/client';
+import {SocketContext} from "../index";
 
 const getActivePlayers = gql`
     query{
-        players{
+        getActivePlayers {
             username,
             game_code
         }
     }`;
-
-const socket = io("http://localhost:4000", {
-    transports: ['websocket']
-});
+const activePlayerMutation  = gql`
+mutation($auth: String){
+    getAuthorizedPlayer(auth: $auth){
+        username, game_code
+    }
+}`;
 let active = [];
-function ActivePlayers(props){
+export async function AuthorizedPlayer() {
+}
+export function ActivePlayers() {
     const {loading, error, data} = useQuery(getActivePlayers);
-    if (loading) return props.loadingMessage;
-    if (error) return `${props.errorMessage}! ${error.message}`;
+    if (loading) return <div>Loading...</div>
+    if (error) return `Error! | ${error.message}`;
 
-    data = data.map(({username})=>{
-            return (
-                <div key={username}>
-                {username}
-                </div>
-            );
-        });
-    return data;
-
-}
-export function Lobby(){
-
-    const [players, setPlayers] = useState(null);
-    useEffect(()=>{
-        socket.on('connect',()=> {
-            setPlayers(<ActivePlayers/>)
-        });
-},[setPlayers]);
-
-    return
-
-
+    return (data.map(({username, game_code}) => {
+        return (
+            <div key={username}>
+                {username}: {game_code}
+            </div>
+        );
+    }));
 
 }
+export function Lobby() {
+    const socket = useContext(SocketContext)
+    socket.connect();
+    const [players, setPlayers] = useState("players go here");
+    const [message, setMessage] = useState("Message goes here");
+    const [getAuthorizedPlayer] = useMutation(activePlayerMutation);
+    // getAuthorizedPlayer({
+    //     variables: {
+    //         auth: `Bearer ${localStorage.getItem('accessToken')}`
+    //     },
+    //     onCompleted: ({getAuthorizedPlayer}) => {
+    //         setPlayers(
+    //             getAuthorizedPlayer.username
+    //         )
+    //     },
+    //
+    // });
+    useEffect(() => {
+        socket.on('connect', () => {
+            console.log(socket.id);
+            setMessage(socket.id)
+            socket.emit('hello', socket.id);
+        });
+        socket.on('connected', (data) => {
+
+        })
+        socket.on('hello-back', (reply) => {
+            let mapped = reply.map(({username, game_code})=>{
+                return(
+                    <div>
+                    <p key={username}>{username}</p>
+                    <br/>
+                    <p key={game_code}>{game_code}</p>
+                    </div>
+                )
+            })
+            setMessage(mapped);
+        });
+        socket.on('disconnect', (reason) => {
+            console.log(reason);
+        })
+    }, []);
+
+    return (<div>
+            <div key={message}>
+                {message}
+            </div>
+            <div key={players}>
+                {players}
+            </div>
+        </div>
+    )
+
+
+}
+
 
 
 

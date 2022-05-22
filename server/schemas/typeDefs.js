@@ -7,11 +7,15 @@ const typeDefs = gql`
     username: String!
     email: String
     game_code: String!
-    accessToken: String!
+    accessToken: String
   }
   type ActivePlayers{
-      username: String!
+      _id: ID!,
+      username: String!,
       game_code: String!,
+      socket_id: String,
+      socket_room: String
+    
   }
   type Auth{
     accessToken: String
@@ -21,13 +25,14 @@ const typeDefs = gql`
     player(username:String!): Players
     players: [Players]
     game_code(game_code: String!): [Players],
-    getActivePlayers: [ActivePlayers]
+    getActivePlayers: [ActivePlayers],
+    getPlayersInSocketRoom(username: String!, socket_room:String):[ActivePlayers]
   }
-
   type Mutation {
-    addActivePlayer(username: String!, game_code: String!): ActivePlayers
-    registerHost(first_name: String!, last_name: String!, username: String!, email: String!, password: String!): Players
-    registerPlayer(username: String!,game_code: String!): Players
+    getAuthorizedPlayer(token: String, socketID: String): ActivePlayers,
+    addActivePlayer(username: String!, game_code: String!, socket_id: String!, socket_room:String!): ActivePlayers,
+    registerHost(first_name: String!, last_name: String!, username: String!, email: String!, password: String!): Players,
+    registerPlayer(username: String!,game_code: String!): Players,
     login(username: String!, password: String!):Players
   }
 `;

@@ -10,6 +10,13 @@ const activePlayerSchema = new Schema({
         type: String,
         required:"game code or room required"
     },
+    socket_id: {
+        type: String
+    },
+    socket_room:{
+
+    }
+
 })
 const ActivePlayers = model('activePlayers', activePlayerSchema);
 

@@ -2,53 +2,66 @@ import crown from './lib/images/crown.png';
 import {useState, useEffect} from 'react';
 import {Form} from 'react-bulma-components'
 import {gql, useMutation, useQuery} from '@apollo/client'
+import {Navigate} from 'react-router-dom';
 const API_URL = "/api/authorize";
 export function Login(){
+    const loginMutation = gql`mutation($username: String!, $password: String!){
+        login(username: $username, password: $password){
+            accessToken
+        }
+    }`;
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState('');
-    const [mutationFN, {data}] = useMutation(gql`
-    mutation($username: String!, $password: String!){
-        login(username: $username, password: $password)
-    }`);
+    const [err, setErr] = useState('');
+    const [login] = useMutation(loginMutation);
 
     // useEffect(()=>{
     //
     //
     // }, [setUsername, setPassword])
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
-        return mutationFN({
+        await login({
             variables: {
                 username: username,
                 password: password
+            },
+            onCompleted: ({login}) => {
+                localStorage.setItem("accessToken", JSON.stringify(login.accessToken));
+                document.location.replace('/lobby');
+            },
+            onError: ({error})=>{
+                setErr(error);
             }
-        }).then(() => console.log(data));
+        });
     }
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="join-form">
             <Form.Field className="field"><Form.Input
                 name="username"
                 type="text"
                 placeholder="Username"
-                className="input is-large control"
+                className="input is-large control form-input"
                 onChange={(e)=>{
                     setUsername(e.target.value)
                 }}
             />
             </Form.Field>
-            <Form.Field className="field"><Form.Input
+            <Form.Field className="field">
+                <label style={{color: "red"}} key={err}> <Form.Input
                 name="password"
                 type="password"
                 placeholder="Password"
-                className="input is-large control"
+                className="is-large control form-input"
                 onChange={(e)=>{
                     setPassword(e.target.value);
                 }}
-            />
+            />{err}</label>
             </Form.Field>
-            <Form.Field className="field"><Form.Input
-                className="button is-block is-info is-large is-fullwidth fa fa-sign-in"
+
+            <Form.Field className="field join-submit"><Form.Input
+                className="button is-block is-info is-large is-fullwidth fa fa-sign-in form-input"
                 type="submit"
                 value="Sign In"
             />

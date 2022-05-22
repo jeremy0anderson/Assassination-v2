@@ -2,13 +2,6 @@ import {io} from 'socket.io-client';
 import {useState, useEffect, Component} from "react";
 import "@apollo/client";
 
-export class SocketConnection{
-    constructor(io, socket){
-        this.io = io;
-        this.socket = socket;
-    }
-
-}
 
 
 

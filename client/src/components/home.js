@@ -7,12 +7,12 @@ export default function Homepage(){
         <div className="sections">
             <section className="column background-black pl-6 pr-6" id="left-column">
                 <section id="homepage-buttons">
-                        <a href="/lobby/host">
+                        <a href="/lobby">
                             <button className="button is-fullwidth mb-3 background-red" id="host">
                                 Host A Game
                             </button>
                         </a>
-                        <a href="/lobby/player">
+                        <a href="/lobby/join">
                             <button className="button is-fullwidth background-blue" id="join">
                                 Join A Game
                             </button>
