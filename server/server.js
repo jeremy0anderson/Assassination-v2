@@ -22,7 +22,8 @@ const io = new Server(httpServer, {
         origin: "http://localhost:3000"
     }
 });
-// io.use((socket, next)=>{
+// This is broken but kept for reference
+//io.use((socket, next)=>{
 //     let token;
 //     if (socket.handshake.headers.authorization !== null){
 //         token = socket.handshake.headers.authorization.slice(1, socket.handshake.headers.authorization.length-1);
@@ -93,9 +94,11 @@ const io = new Server(httpServer, {
 //     console.log(socket.id  + " connected");
 // });
 
+//requires Apollo server to allow Graph Ql usage
 const { ApolloServer } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 
+//Starts new Apollo server and establishes typeDefs and Revolvers
 async function startApolloServer(typeDefs, resolvers) {
     const server = new ApolloServer({
         typeDefs,

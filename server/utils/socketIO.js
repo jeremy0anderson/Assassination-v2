@@ -1,3 +1,4 @@
+//initiates Socket Handshake
 class SocketConnection{
     constructor(io, socket){
         this.io = io;

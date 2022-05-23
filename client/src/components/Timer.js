@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-
+//This is the Timer
 export const Timer = () => {
     const [countDown, setCountDown] = useState(0);
     const [runTimer, setRunTimer] = useState(false);
 
+    //if runTimer is called count down is set to 5 min
     useEffect(() => {
         let timerId;
-
         if (runTimer) {
             setCountDown(60 * 5);
             timerId = setInterval(() => {
@@ -19,6 +19,7 @@ export const Timer = () => {
         return () => clearInterval(timerId);
     }, [runTimer]);
 
+    //checks is timer is is running and less than zero and changes the states
     useEffect(() => {
         if (countDown < 0 && runTimer) {
             console.log("expired");

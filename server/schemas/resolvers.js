@@ -40,21 +40,21 @@ const resolvers = {
 
     Mutation: {
         getAuthorizedPlayer: async (parent, {token, socket_id}) => {
-          if (!token || token.length <= 4) throw new AuthenticationError("Error. No token");
+            if (!token || token.length <= 4) throw new AuthenticationError("Error. No token");
 
-          const accessToken = token.slice(1, token.length-1);
+            const accessToken = token.slice(1, token.length-1);
             if (!token) throw new AuthenticationError("Please provide a token");
 
 const player = await verify(accessToken, process.env.JWT_SECRET, {expiresIn:"1d"},(err, decoded)=>{
-              if (err) throw new AuthenticationError("invalid token");
-              return ActivePlayers.create({
-                  _id: decoded._id,
-                  username: decoded.username,
-                  game_code: decoded.game_code,
-                  socket_id: socket_id
-              })
-          });
-          console.log(player);
+            if (err) throw new AuthenticationError("invalid token");
+            return ActivePlayers.create({
+                _id: decoded._id,
+                username: decoded.username,
+                game_code: decoded.game_code,
+                socket_id: socket_id
+            })
+        });
+        console.log(player);
             return player;
         },
         addActivePlayer: async (parent, args) => {

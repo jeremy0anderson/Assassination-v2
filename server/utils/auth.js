@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-
+//runs JWT authentication
 module.exports = {
   signToken: async function ({game_code, username, _id }) {
     const payload = {game_code, username, _id}
