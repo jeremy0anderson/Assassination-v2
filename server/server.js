@@ -80,7 +80,7 @@ async function startApolloServer(typeDefs, resolvers) {
         resolvers,
         csrfPrevention: true,
         cors: {
-            origin: ['http://localhost:3000',"https://studio.apollographql.com"]
+            origin: ['http://localhost:3000',"https://studio.apollographql.com", "https://assassination-v2.herokuapp.com/"]
         },
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
         context: ({req})=>{
