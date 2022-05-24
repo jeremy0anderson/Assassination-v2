@@ -63,7 +63,7 @@ io.on('connection', async (socket)=>{
     socket.on('disconnect', async(reason)=>{
         await ActivePlayers.findOneAndDelete({socket_id: socket.id})
         console.log(reason);
-        io.emit('updatedOnDisconnect', activePlayers)
+        io.emit('updatedOnDisconnect', (activePlayers))
         io.removeAllListeners(socket);
     })
 })
@@ -78,6 +78,7 @@ async function startApolloServer(typeDefs, resolvers) {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
+
         csrfPrevention: true,
         cors: {
             origin: ['http://localhost:3000',"https://studio.apollographql.com", "https://assassination-v2.herokuapp.com/"]
