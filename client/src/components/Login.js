@@ -43,7 +43,7 @@ export function Login(){
                 name="username"
                 type="text"
                 placeholder="Username"
-                className="input form-input"
+                className="input form-input background-white"
                 onChange={(e)=>{
                     setUsername(e.target.value)
                 }}
@@ -55,7 +55,7 @@ export function Login(){
                 name="password"
                 type="password"
                 placeholder="Password"
-                className="form-input"
+                className="form-input background-white"
                 onChange={(e)=>{
                     setPassword(e.target.value);
                 }}
@@ -64,7 +64,8 @@ export function Login(){
 
             <Form.Field>
                 <Form.Input
-                className="button is-info fa fa-sign-in form-input"
+                id="login"
+                className="button fa fa-sign-in form-input is-centered background-blue"
                 type="submit"
                 value="Sign In"
             />

@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 export default function Nav(){
 
     return(
-        <Navbar className="navbar background-black has-text-centered" id="navigation-img">
+        <Navbar className="navbar background-black has-text-centered" id="navigation">
         <Navbar.Brand>
             <a href="/"> <img alt="navLogo" src={navLogo}/></a>
         </Navbar.Brand>

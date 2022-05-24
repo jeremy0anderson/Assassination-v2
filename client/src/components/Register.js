@@ -96,7 +96,7 @@ export class Register extends Component {
                         name="first_name"
                         type="text"
                         placeholder="First Name"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangeFirstName}
                         value={this.state.first_name}
@@ -107,7 +107,7 @@ export class Register extends Component {
                         name="last_name"
                         type="text"
                         placeholder="Last Name"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangeLastName}
                         value={this.state.last_name}
@@ -118,7 +118,7 @@ export class Register extends Component {
                         name="username"
                         type="text"
                         placeholder="Username"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangeUsername}
                         value={this.state.username}
@@ -129,7 +129,7 @@ export class Register extends Component {
                         name="email"
                         type="text"
                         placeholder="Email"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required, email]}
                         onChange={this.onChangeEmail}
                         value={this.state.email}
@@ -140,7 +140,7 @@ export class Register extends Component {
                         name="password"
                         type="password"
                         placeholder="Password"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangePassword}
                         value={this.state.password}
@@ -148,7 +148,8 @@ export class Register extends Component {
                 </Form.Field>
                 <Form.Field>
                     <Button
-                        className="button is-block is-info is-large fa fa-sign-in form-input font"
+                        id="register"
+                        className="button is-block is-info fa fa-sign-in form-input font background-blue"
                         type="submit">
                         Sign Up
                     </Button>

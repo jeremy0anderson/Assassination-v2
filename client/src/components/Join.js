@@ -37,6 +37,7 @@ export function Join(){
         }}>
             <Form.Field>
                 <Form.Input id="join-input-username"
+                    className="background-white"
                     name="username"
                     placeholder="Username"
                     onChange={(e)=> {setUsername(e.target.value)}}
@@ -45,6 +46,7 @@ export function Join(){
             <Form.Field>
                 <Form.Input
                     id="join-input-gamecode"
+                    className="background-white"
                     name="game_code"
                     placeholder="Game Code"
                     onChange={(e)=>{setUsername(e.target.value)}}
@@ -52,7 +54,7 @@ export function Join(){
             </Form.Field>
             <Form.Field>
                 <Form.Input id="submit-join"
-                className="button is-info"
+                className="button background-blue"
                 type="submit"
                 value="Join"
             />
