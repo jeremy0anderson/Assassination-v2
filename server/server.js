@@ -40,6 +40,16 @@ io.use(socketioJwt.authorize({
 //listen for sockets -- return events (socket.on('...')
 io.on('connection', (socket)=>{
     console.log(socket.decoded_token.username);
+
+
+
+
+
+
+    socket.on('disconnect', (reason)=>{
+        console.log(reason);
+        io.removeAllListeners(socket);
+    })
 })
 
 
