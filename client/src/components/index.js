@@ -1,9 +1,9 @@
-import {Login} from './login';
-import {Register} from './register'
-import Nav from './navbar'
-import Homepage from './home';
-import {SocketHandler} from './Socket.io';
+import {Login} from './Login';
+import {Register} from './Register'
+import Nav from './Navbar'
+import Homepage from './Home';
 import {Join} from "./Join"
 import {Timer} from "./Timer";
+import {Lobby} from "./Lobby";
 
-export {Login, Register, Nav, Homepage, SocketHandler, Join, Timer};
+export {Login, Register, Nav, Homepage, Join, Timer, Lobby};

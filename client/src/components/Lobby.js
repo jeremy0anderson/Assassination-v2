@@ -90,91 +90,12 @@
 //
 //     }
 // }
-import {useEffect, useState, useContext} from "react";
-import {Button, Form,Card, Section} from 'react-bulma-components';
-import {gql, useQuery, useMutation} from '@apollo/client';
-import {SocketContext} from "../index";
+import {Connections} from './context/socket';
 
-const getActivePlayers = gql`
-    query{
-        getActivePlayers {
-            username,
-            game_code
-        }
-    }`;
-const activePlayerMutation  = gql`
-mutation($auth: String){
-    getAuthorizedPlayer(auth: $auth){
-        username, game_code
-    }
-}`;
-let active = [];
-export async function AuthorizedPlayer() {
-}
-export function ActivePlayers() {
-    const {loading, error, data} = useQuery(getActivePlayers);
-    if (loading) return <div>Loading...</div>
-    if (error) return `Error! | ${error.message}`;
-
-    return (data.map(({username, game_code}) => {
-        return (
-            <div key={username}>
-                {username}: {game_code}
-            </div>
-        );
-    }));
-
-}
 export function Lobby() {
-    const socket = useContext(SocketContext)
-    socket.connect();
-    const [players, setPlayers] = useState("players go here");
-    const [message, setMessage] = useState("Message goes here");
-    const [getAuthorizedPlayer] = useMutation(activePlayerMutation);
-    // getAuthorizedPlayer({
-    //     variables: {
-    //         auth: `Bearer ${localStorage.getItem('accessToken')}`
-    //     },
-    //     onCompleted: ({getAuthorizedPlayer}) => {
-    //         setPlayers(
-    //             getAuthorizedPlayer.username
-    //         )
-    //     },
-    //
-    // });
-    useEffect(() => {
-        socket.on('connect', () => {
-            console.log(socket.id);
-            setMessage(socket.id)
-            socket.emit('hello', socket.id);
-        });
-        socket.on('connected', (data) => {
-
-        })
-        socket.on('hello-back', (reply) => {
-            let mapped = reply.map(({username, game_code})=>{
-                return(
-                    <div>
-                    <p key={username}>{username}</p>
-                    <br/>
-                    <p key={game_code}>{game_code}</p>
-                    </div>
-                )
-            })
-            setMessage(mapped);
-        });
-        socket.on('disconnect', (reason) => {
-            console.log(reason);
-        })
-    }, []);
-
-    return (<div>
-            <div key={message}>
-                {message}
-            </div>
-            <div key={players}>
-                {players}
-            </div>
+    return (
+        <div>
+            <Connections/>
         </div>
     )
 
