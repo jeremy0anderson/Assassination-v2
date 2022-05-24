@@ -4,7 +4,6 @@
     "url": "https://github.com/jeremy0anderson/Assassination-v2/issues"
   },
   "scripts": {
-    "heroku-poststart": "cd ../client && npm install && npm run build",
     "start": "node server.js",
     "develop": "nodemon server.js"
   },
