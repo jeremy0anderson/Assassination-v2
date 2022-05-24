@@ -4,8 +4,8 @@ import 'react-bulma-components';
 export default function Homepage(){
 
     return(
-        <div className="sections">
-            <section className="column background-black pl-6 pr-6" id="left-column">
+        <div className="columns">
+            <section className="column is-12-mobile is-4-tablet background-black pl-6 pr-6" id="left-column">
                 <section id="homepage-buttons">
                         <a href="/lobby">
                             <button className="button is-fullwidth mb-3 background-red" id="host">
@@ -19,7 +19,7 @@ export default function Homepage(){
                         </a>
                 </section>
             </section>
-            <section className="column is-12-mobile is-8-tablet text-white" id="right-column">
+            <section className="column is-12-mobile is-8-tablet text-white font" id="right-column">
                 <div id="story">
                     <h2 className="subtitle is-5 has-text-right text-white mb-5 pr-5">
                         The <span className="text-red">king</span> is dead, who will be the next <span className="text-blue">king</span> of the kingdom?

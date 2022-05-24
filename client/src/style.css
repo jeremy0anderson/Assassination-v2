@@ -1,13 +1,13 @@
-/* universal selector */
 /* removes default margin and padding from everything */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Merriweather', serif;
     line-height: 200%;
 }
+/* removes default margin and padding from everything */
 
+/* universal selector */
 :root {
     --black: #1E1E24;
     --white: #F7F7FF;
@@ -16,11 +16,29 @@
     --green: #588157;
     --yellow: #E3B505;
 }
-/* universal selector */
+
+* {
+    background-color: var(--black) !important;
+}
+
+.App{
+    height: 100vh;
+    width: 100vw;
+}
+
+#root{
+    justify-content: center;
+    display: flex;
+    flex-flow: column;
+}
+
 body, .App{
     background: var(--black);
     text-align: center;
 }
+/* universal selector */
+
+
 /* utility classes */
 .background-black {
     background-color: var(--black) !important;
@@ -69,6 +87,22 @@ body, .App{
 .text-yellow {
     color: var(--yellow) !important;
 }
+
+.font {
+    font-family: 'Merriweather', serif;
+}
+
+.form-wrapper{
+    max-width: fit-content;
+    display: inline-flex;
+    align-self: center;
+}
+
+.join-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 /* utility classes */
 
 /* buttons */
@@ -89,15 +123,23 @@ body, .App{
 }
 
 #navigation-img {
-    width: 400px;
     margin: 15px;
 }
-.navbar-burger{
+
+.navbar{
+    justify-content: center;
+    display: flex;
+    margin-bottom: 5vh;
+}
+
+.navbar img {
+    max-height: 10vh;
+    display: flex;
+    justify-content: space-around;
 }
 /* navbar */
 
 /* login hero */
-
 #login-crown {
     max-height: 50px;
     max-width: 50vw;
@@ -107,6 +149,10 @@ body, .App{
     color: var(--white);
 }
 
+#submit-join, #register, #login {
+    color: var(--white);
+    border: none;
+}
 /* login hero */
 
 /* left column */
@@ -133,6 +179,7 @@ h3 {
 }
 
 #story, #game-instructions, #role-explanation, #core-roles {
+    background-size:cover;
     padding-left: 15px !important;
     padding-right: 15px !important;
 }
@@ -153,12 +200,6 @@ h3 {
     margin: 5px;
 }
 /* right column */
-
-/* footer style */
-footer {
-    font-size: 12px;
-}
-/* footer style */
 
 /* wait list CSS */
 #page {
@@ -193,7 +234,16 @@ footer {
     width: 100vw;
 }
 /* wait list CSS */
-@media screen and (min-width: 390px) {
+
+/* /join form */
+.input {
+    max-width: 60% !important;
+}
+/* /join form */
+
+
+
+@media screen and (min-width: 290px) {
     #root{
         max-height: 100vh;
     }
@@ -217,16 +267,14 @@ footer {
 
     #right-column {
         padding: 0.75rem;
-        height: 100vh;
-        overflow-wrap: normal;
-        width: 100vw;
     }
 
     #banish {
         margin: 0;
     }
 
-}
+} 
+
 @media screen and (min-width: 768px) {
     /* applies to screens above 768px */
     .App{
@@ -255,73 +303,24 @@ footer {
     }
 }
 
-.form-wrapper{
-    max-width: fit-content;
-    display: inline-flex;
-    align-self: center;
-}
+
 .game-code{
     font-size: xx-large;
     color: white;
     text-align: center;
     padding: 10px;
 }
-.sections{
-    display: flex;
-}
 
 .checkbox{
     margin-right: 8px;
 }
-#register{
-    border-style: none;
-}
-#login{
-    border-style: none;
-}
+
 .active-players{
     display: flex;
     justify-content: space-between;
     max-width: 400px;
 }
+
 .active-players h3{
     font-size: x-large;
-}
-.navbar{
-    justify-content: center;
-    display: flex;
-    margin-bottom: 5vh;
-}
-.navbar img {
-    max-height: 10vh;
-    display: flex;
-    justify-content: space-around;
-}
-.App{
-    height: 100vh;
-    width: 100vw;
-}
-#root{
-    justify-content: center;
-    display: flex;
-    flex-flow: column;
-}
-.join-form{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-#join-input-username, #join-input-gamecode,.form-input{
-    max-width: 40vw;
-    text-align: center;
- }
-.join-submit, .button, .field{
-    display: inline-flex;
-    justify-content: center;
-    text-align: center;
-
-}
-#submit-join{
-    max-width: 40vw;
 }
