@@ -1,13 +1,11 @@
 import navLogo from './lib/images/assassination_navbar.png';
-import {
-    Navbar
-} from 'react-bulma-components';
+import { Navbar } from 'react-bulma-components';
 import {io} from 'socket.io-client';
 import {useEffect, useState} from "react";
 export default function Nav(){
 
     return(
-        <Navbar className="navbar background-black has-text-centered" id="navigation">
+        <Navbar className="navbar background-black has-text-centered" id="navigation-img">
         <Navbar.Brand>
             <a href="/"> <img alt="navLogo" src={navLogo}/></a>
         </Navbar.Brand>

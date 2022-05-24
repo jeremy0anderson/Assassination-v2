@@ -50,7 +50,8 @@ export function Join(){
                     onChange={(e)=>{setUsername(e.target.value)}}
                 />
             </Form.Field>
-            <Form.Field className="field"><Form.Input id="submit-join"
+            <Form.Field>
+                <Form.Input id="submit-join"
                 className="button is-info"
                 type="submit"
                 value="Join"

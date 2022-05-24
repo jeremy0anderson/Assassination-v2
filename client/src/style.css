@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Merriweather', serif;
     line-height: 200%;
 }
 /* removes default margin and padding from everything */
@@ -31,6 +30,7 @@
 
 body, .App{
     background: var(--black);
+    text-align: center;
 }
 /* universal selector */
 
@@ -119,7 +119,6 @@ body, .App{
 }
 
 #navigation-img {
-    width: 400px;
     margin: 15px;
 }
 
@@ -240,7 +239,7 @@ footer {
 
 
 
-/* @media screen and (min-width: 390px) {
+@media screen and (min-width: 390px) {
     #root{
         max-height: 100vh;
     }
@@ -272,7 +271,7 @@ footer {
         margin: 0;
     }
 
-} */
+} 
 
 @media screen and (min-width: 768px) {
     /* applies to screens above 768px */
@@ -309,20 +308,9 @@ footer {
     text-align: center;
     padding: 10px;
 }
-.sections{
-    display: flex;
-}
 
 .checkbox{
     margin-right: 8px;
-}
-
-#register{
-    border-style: none;
-}
-
-#login{
-    border-style: none;
 }
 
 .active-players{
@@ -333,9 +321,4 @@ footer {
 
 .active-players h3{
     font-size: x-large;
-}
-
-
-#submit-join{
-    max-width: 40vw;
 }

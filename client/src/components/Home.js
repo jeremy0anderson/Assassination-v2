@@ -19,7 +19,7 @@ export default function Homepage(){
                         </a>
                 </section>
             </section>
-            <section className="column is-12-mobile is-8-tablet text-white" id="right-column">
+            <section className="column is-12-mobile is-8-tablet text-white font" id="right-column">
                 <div id="story">
                     <h2 className="subtitle is-5 has-text-right text-white mb-5 pr-5">
                         The <span className="text-red">king</span> is dead, who will be the next <span className="text-blue">king</span> of the kingdom?

@@ -148,7 +148,7 @@ export class Register extends Component {
                 </Form.Field>
                 <Form.Field>
                     <Button
-                        className="button is-block is-info is-large is-fullwidth fa fa-sign-in form-input"
+                        className="button is-block is-info is-large fa fa-sign-in form-input font"
                         type="submit">
                         Sign Up
                     </Button>
