@@ -1,4 +1,3 @@
-import './App.css';
 import './style.css';
 import 'bulma/css/bulma.min.css';
 import React from 'react';

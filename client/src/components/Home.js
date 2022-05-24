@@ -4,8 +4,8 @@ import 'react-bulma-components';
 export default function Homepage(){
 
     return(
-        <div className="sections">
-            <section className="column background-black pl-6 pr-6" id="left-column">
+        <div className="columns">
+            <section className="column is-12-mobile is-4-tablet background-black pl-6 pr-6" id="left-column">
                 <section id="homepage-buttons">
                         <a href="/lobby">
                             <button className="button is-fullwidth mb-3 background-red" id="host">
