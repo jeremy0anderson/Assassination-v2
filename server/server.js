@@ -18,11 +18,12 @@ app.use(require('cors')({
     origin: "http://localhost:3000"
 }));
 //decode any req auth jwt headers
-app.use(expressjwt({
-    secret: process.env.JWT_SECRET,
-    algorithms: ['HS256'],
-    credentialsRequired: false
-}))
+// app.use(expressjwt({
+//     secret: process.env.JWT_SECRET,
+//     algorithms: ['HS256'],
+//     credentialsRequired: false,
+//
+// }))
 
 //http server
 const httpServer = require('http').createServer(app);

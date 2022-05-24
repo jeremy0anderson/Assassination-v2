@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "concurrently \"cd server && node server.js\" \"cd client&& npm start\" ",
+    "start": "node server/server.js",
     "dev": "concurrently \"cd server && nodemon server.js\" \"cd client && npm start\""
   },
   "repository": {
