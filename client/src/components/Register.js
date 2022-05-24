@@ -102,7 +102,8 @@ export class Register extends Component {
                         value={this.state.first_name}
                     />
                 </Form.Field>
-                <Form.Field className="field"><Form.Input
+                <Form.Field className="field">
+                    <Form.Input
                         name="last_name"
                         type="text"
                         placeholder="Last Name"
@@ -112,7 +113,8 @@ export class Register extends Component {
                         value={this.state.last_name}
                 />
                 </Form.Field>
-                <Form.Field className="field"><Form.Input
+                <Form.Field className="field">
+                    <Form.Input
                         name="username"
                         type="text"
                         placeholder="Username"
@@ -122,7 +124,8 @@ export class Register extends Component {
                         value={this.state.username}
                 />
                 </Form.Field>
-                <Form.Field className="field"><Form.Input
+                <Form.Field className="field">
+                    <Form.Input
                         name="email"
                         type="text"
                         placeholder="Email"
@@ -132,7 +135,8 @@ export class Register extends Component {
                         value={this.state.email}
                 />
                 </Form.Field>
-                <Form.Field className="field"><Form.Input
+                <Form.Field className="field">
+                    <Form.Input
                         name="password"
                         type="password"
                         placeholder="Password"
@@ -142,7 +146,8 @@ export class Register extends Component {
                         value={this.state.password}
                 />
                 </Form.Field>
-                <Form.Field className="field"><Button
+                <Form.Field className="field">
+                    <Button
                         className="button is-block is-info is-large is-fullwidth fa fa-sign-in form-input"
                         type="submit">
                         Sign Up

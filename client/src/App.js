@@ -3,8 +3,7 @@ import './style.css';
 import 'bulma/css/bulma.min.css';
 import React from 'react';
 import {Route, Routes, Redirect, Navigate} from 'react-router-dom';
-import {Lobby, ActivePlayers} from './components/lobby';
-import {Homepage, Nav, Login, Register, SocketHandler, Join, Timer} from './components';
+import {Homepage, Nav, Login, Register, SocketHandler, Join, Timer, Lobby} from './components';
 
 function App() {
     const token = localStorage.getItem("accessToken");
