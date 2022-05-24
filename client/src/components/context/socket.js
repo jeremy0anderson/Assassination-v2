@@ -29,6 +29,14 @@ function Connections(){
                     </Field>)
         }))
     });
+    socket.on('updatedOnDisconnect', (activePlayers) => {
+        setActive(activePlayers.map(({username}) => {
+            return (<Field key={username}>
+                <Checkbox>{username}</Checkbox>
+            </Field>)
+        }));
+    });
+
     socket.on('disconnect', (reason) => {
         console.log(reason);
     })

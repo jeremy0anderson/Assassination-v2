@@ -20,7 +20,8 @@ app.use(require('cors')({
 //decode any req auth jwt headers
 app.use(expressjwt({
     secret: process.env.JWT_SECRET,
-    algorithms: ['HS256']
+    algorithms: ['HS256'],
+    credentialsRequired: false
 }))
 
 //http server
@@ -35,19 +36,33 @@ const io = new Server(httpServer, {
 //decode authorization header sent with socket
 io.use(socketioJwt.authorize({
     secret: process.env.JWT_SECRET,
-    handshake: true
+    handshake: true,
+    auth_header_required: false
 }));
 //listen for sockets -- return events (socket.on('...')
-io.on('connection', (socket)=>{
+io.on('connection', async (socket)=>{
     console.log(socket.decoded_token.username);
 
+    const activeSockets = Array.from(await io.allSockets());
+    const newPlayer = await ActivePlayers.create({
+        username: socket.decoded_token.username,
+        game_code: socket.decoded_token.game_code,
+        socket_id: socket.id
+    });
+
+    const activePlayers = await ActivePlayers.find({socket_id: {$in: activeSockets}});
+    console.log(activePlayers);
+
+    io.emit('authorized', activePlayers)
 
 
 
 
 
-    socket.on('disconnect', (reason)=>{
+    socket.on('disconnect', async(reason)=>{
+        await ActivePlayers.findOneAndDelete({socket_id: socket.id})
         console.log(reason);
+        io.emit('updatedOnDisconnect', activePlayers)
         io.removeAllListeners(socket);
     })
 })
