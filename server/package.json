@@ -23,7 +23,8 @@
     "socketio-jwt2": "^4.5.1",
     "http": "^0.0.1-security",
     "dotenv": "^16.0.1",
-    "apollo-server": "^3.8.1"
+    "apollo-server": "^3.8.1",
+    "path": "^0.12.7"
   },
   "description": "",
   "homepage": "https://github.com/jeremy0anderson/Assassination-v2#readme",

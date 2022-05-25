@@ -87,7 +87,7 @@ async function startApolloServer(typeDefs, resolvers) {
     });
     //await graphql server start
     await server.start();
-    app.use(express.static(require('path').resolve(__dirname, "./client/build")));
+    app.use(express.static(require('path').join(__dirname, "../client/build")));
     app.use(express.urlencoded({extended: true}))
     app.use(express.json());
 
