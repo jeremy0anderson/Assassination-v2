@@ -2,7 +2,7 @@
 
 ## Description
 
-Assassination: BTK is a web based social deduction game that you can play with friends at a party on your phone. It lets the phone handle the setup and and game execution so that your can immerse yourself into the game experience. It is primarily built out using Java Script, Node Js, Express, Handlebars, Bulma, Heroku and Web Sockets.
+Assassination: Between Two Kingdoms is a web-based social deduction game that you can play with friends at a party on your mobile device. It lets the device handle the setup and and game execution so that you can immerse yourself into the game experience. It is primarily built out using JavaScript, Node Js, Express, Handlebars, Bulma, Heroku, and Web Sockets.
 
 ## Installation
 
@@ -20,12 +20,11 @@ Go to https://assassination-multiplayer.herokuapp.com/ and click on the "Host a 
 
 ## Credits
 
-Contributors to this project have been Jeremy Anderson, Rachel Marriot, Lilly Leiran, Ilan Timberland, and Aaron Jones.
+Contributors to this project have been Jeremy Anderson, Rachel Marriot, Lilly Leiran, Ilan Timerman, and Aaron Jones.
 
 The game was created by Aaron Jones and Rachelle Jones.
 
-
 ## How to Contribute
 
-If you are as passionate about this project as we are message me at ernypoo92@gmail.com.
+If you are as passionate about this project as we are, message me at ernypoo92@gmail.com.
 

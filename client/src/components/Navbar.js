@@ -1,7 +1,5 @@
 import navLogo from './lib/images/assassination_navbar.png';
-import {
-    Navbar
-} from 'react-bulma-components';
+import { Navbar } from 'react-bulma-components';
 import {io} from 'socket.io-client';
 import {useEffect, useState} from "react";
 export default function Nav(){
