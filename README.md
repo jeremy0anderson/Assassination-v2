@@ -20,6 +20,9 @@ Go to https://assassination-multiplayer.herokuapp.com/ and click on the "Host a 
 
 <img width="246" alt="king-pg-1" src="https://user-images.githubusercontent.com/94089960/170337014-287ad504-215f-4cbb-938d-fffc4817fc0f.png">
 
+<img width="246" alt="king-pg-2" src="https://user-images.githubusercontent.com/94089960/170337128-996c0826-c83e-46a9-86ce-604ae9d6a794.png">
+
+
 ## Credits
 
 Contributors to this project have been Jeremy Anderson, Rachel Marriot, Lilly Leiran, Ilan Timerman, and Aaron Jones.
