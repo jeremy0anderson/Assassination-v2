@@ -91,64 +91,65 @@ export class Register extends Component {
     render(){
         return (
             <form onSubmit={this.handleRegister}>
-                <Form.Field className="field">
+                <Form.Field>
                     <Form.Input
                         name="first_name"
                         type="text"
                         placeholder="First Name"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangeFirstName}
                         value={this.state.first_name}
                     />
                 </Form.Field>
-                <Form.Field className="field">
+                <Form.Field>
                     <Form.Input
                         name="last_name"
                         type="text"
                         placeholder="Last Name"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangeLastName}
                         value={this.state.last_name}
                 />
                 </Form.Field>
-                <Form.Field className="field">
+                <Form.Field>
                     <Form.Input
                         name="username"
                         type="text"
                         placeholder="Username"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangeUsername}
                         value={this.state.username}
                 />
                 </Form.Field>
-                <Form.Field className="field">
+                <Form.Field>
                     <Form.Input
                         name="email"
                         type="text"
                         placeholder="Email"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required, email]}
                         onChange={this.onChangeEmail}
                         value={this.state.email}
                 />
                 </Form.Field>
-                <Form.Field className="field">
+                <Form.Field>
                     <Form.Input
                         name="password"
                         type="password"
                         placeholder="Password"
-                        className="input is-large control form-input"
+                        className="input control form-input background-white"
                         validations={[required]}
                         onChange={this.onChangePassword}
                         value={this.state.password}
                 />
                 </Form.Field>
-                <Form.Field className="field">
+                <Form.Field>
                     <Button
-                        className="button is-block is-info is-large is-fullwidth fa fa-sign-in form-input"
+                        id="register"
+                        className="button is-block is-info fa fa-sign-in form-input font background-blue"
                         type="submit">
                         Sign Up
                     </Button>

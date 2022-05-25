@@ -38,30 +38,34 @@ export function Login(){
 
     return(
         <form onSubmit={handleSubmit} className="join-form">
-            <Form.Field className="field"><Form.Input
+            <Form.Field>
+                <Form.Input
                 name="username"
                 type="text"
                 placeholder="Username"
-                className="input is-large control form-input"
+                className="input form-input background-white"
                 onChange={(e)=>{
                     setUsername(e.target.value)
                 }}
-            />
+                />
             </Form.Field>
-            <Form.Field className="field">
-                <label style={{color: "red"}} key={err}> <Form.Input
+            <Form.Field>
+                <label style={{color: "red"}} key={err}> 
+                <Form.Input
                 name="password"
                 type="password"
                 placeholder="Password"
-                className="is-large control form-input"
+                className="form-input background-white"
                 onChange={(e)=>{
                     setPassword(e.target.value);
                 }}
-            />{err}</label>
+                />{err}</label>
             </Form.Field>
 
-            <Form.Field className="field join-submit"><Form.Input
-                className="button is-block is-info is-large is-fullwidth fa fa-sign-in form-input"
+            <Form.Field>
+                <Form.Input
+                id="login"
+                className="button fa fa-sign-in form-input is-centered background-blue"
                 type="submit"
                 value="Sign In"
             />
