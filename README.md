@@ -26,6 +26,8 @@ Go to https://assassination-multiplayer.herokuapp.com/ and click on the "Host a 
 
 <img width="1440" alt="king-pg-2-desktop" src="https://user-images.githubusercontent.com/94089960/170337291-70a37b27-9172-4df5-883b-a96321b427bf.png">
 
+<img width="246" alt="player-pg-1" src="https://user-images.githubusercontent.com/94089960/170337373-f59e3f4d-13f4-450c-abf6-990ed4fe63fa.png">
+
 
 ## Credits
 
