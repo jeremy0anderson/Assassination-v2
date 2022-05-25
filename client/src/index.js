@@ -14,6 +14,7 @@ const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     credentials: "same-origin"
 })
+
 const authHeader = setContext((_, {headers})=>{
     return {
         headers: {
@@ -22,20 +23,6 @@ const authHeader = setContext((_, {headers})=>{
         }
     }
 });
-const socket = io("http://localhost:4000", {
-        // transports: ['websocket', 'polling'],
-        autoConnect: false,
-        reconnection: true,
-        reconnectionAttempts: 10,
-        reconnectionDelay: 500,
-        extraHeaders: {
-            "authorization": token
-        }
-
-
-    });
-export const SocketContext = createContext(socket);
-console.log(socket.id)
 
 export const client = new ApolloClient({
     link: authHeader.concat(httpLink),

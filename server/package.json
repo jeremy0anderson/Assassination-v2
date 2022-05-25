@@ -4,7 +4,8 @@
     "url": "https://github.com/jeremy0anderson/Assassination-v2/issues"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.js && npm run poststart",
+    "poststart": "cd ../client && npm start",
     "develop": "nodemon server.js"
   },
   "dependencies": {
@@ -20,7 +21,10 @@
     "nodemon": "^2.0.16",
     "socket.io": "^4.5.0",
     "socketio-jwt": "^4.6.2",
-    "socketio-jwt2": "^4.5.1"
+    "socketio-jwt2": "^4.5.1",
+    "http": "^0.0.1-security",
+    "dotenv": "^16.0.1",
+    "apollo-server": "^3.8.1"
   },
   "description": "",
   "homepage": "https://github.com/jeremy0anderson/Assassination-v2#readme",

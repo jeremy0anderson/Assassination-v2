@@ -4,10 +4,16 @@ import 'bulma/css/bulma.min.css';
 import React from 'react';
 import {Route, Routes, Redirect, Navigate} from 'react-router-dom';
 import {Homepage, Nav, Login, Register, Join, Timer, Lobby} from './components';
-import {useContext} from 'react';
-import {SocketContext, socket} from "./components/context/socket";
+import {io} from "socket.io-client";
+const token = JSON.parse(localStorage.getItem('accessToken'));
+const socketToken = {token: token}
+export const socket = io('http://localhost:4000', {
+    extraHeaders: {
+        Authorization: token ? `Bearer ${token}` : ''
+    }
+});
+export const SocketContext = React.createContext(socket)
 function App() {
-    const token = localStorage.getItem("accessToken");
     return (
         <SocketContext.Provider value={socket}>
         <div className="App" key="App">

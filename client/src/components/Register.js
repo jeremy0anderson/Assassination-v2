@@ -30,26 +30,24 @@ export function Register(){
     const handleRegister = (e)=>{
         e.preventDefault();
     }
+    const registerHostMutation = gql`
+      mutation($first_name: String!, $last_name: String!, $username: String!, $email: String!, $password: String!) {
+  registerHost(first_name: $first_name, last_name: $last_name, username: $username, email: $email, password: $password) {
+    accessToken
+  }
+}
+    `
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [registerHost] = useMutation(gql`
-        mutation RegisterHost($firstName: String!, $lastName: String!, $username: String!, $email: String!, $password: String!) {
-            registerHost(first_name: $firstName, last_name: $lastName, username: $username, email: $email, password: $password) {
-                username
-                game_code
-                first_name
-                email
-                accessToken
-            }
-        }`)
+    const [registerHost] = useMutation(registerHostMutation)
 
 
      return (
-        <form onSubmit={registerHost({
+        <form onSubmit={registerHostMutation({
             variables:{
                 first_name: first_name,
                 last_name: last_name,
