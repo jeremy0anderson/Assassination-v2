@@ -65,7 +65,7 @@ const player = await verify(accessToken, process.env.JWT_SECRET, {expiresIn:"1d"
             })
         },
         registerHost: async (parent, args) => {
-            const newHost = new Players({
+            const newHost = await Players.create({
                 first_name: args.first_name,
                 last_name: args.last_name,
                 username: args.username,
@@ -73,7 +73,13 @@ const player = await verify(accessToken, process.env.JWT_SECRET, {expiresIn:"1d"
                 password: args.password,
                 game_code: Math.random().toString(36).slice(2,8)
             });
-            return await newHost.save();
+            const accessToken = await getToken({username: newHost.username, game_code: newHost.game_code,_id: newHost._id});
+            return {
+                id: newHost._id,
+                username: newHost.username,
+                game_code: newHost.game_code,
+                accessToken: accessToken
+            }
 
         },
         registerPlayer: async(parent,args)=>{

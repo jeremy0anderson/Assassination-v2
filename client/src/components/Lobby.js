@@ -1,187 +1,59 @@
-// import React from 'react';
-// import {useState, useEffect} from 'react';
-// // import socketIOClient from 'socket.io-client';
-// // export function SocketIO(props){
-// //
-// //     const [socketRes, setSocketRes] = useState('');
-// //
-// //     useEffect(()=>{
-// //         setSocketRes('');
-// //     })
-// //     const socket = socketIOClient(`http://127.0.0.1:${props.PORT}`)
-// //     socket.on('connect', ()=>{
-// //         console.log(socket.id);
-// //         setSocketRes(socket.id);
-// //         return(
-// //             <h3 key={socketRes}>{socketRes}</h3>
-// //         );
-// //     })
-// // }
-// // async function GetPlayers(){
-// //
-// // }
-// // export function Lobby(){
-// //     const [players, setPlayers] = useState(null);
-// //     useEffect(()=> {
-// //         async function get() {
-// //             let res = await fetch('/api/players');
-// //             let data = await res.json();
-// //             setPlayers(data);
-// //             return setPlayers(data.map(obj => {
-// //                 <div key={obj.username} className="active-players">
-// //                     <h3>{obj.username}</h3>
-// //                     <p key={obj.game_code}>{obj.game_code}</p>
-// //                 </div>
-// //             }));
-// //         }
-// //         get();
-// //     });
-// //     return(
-// //         <div>
-// //             <SocketIO PORT="3003"/>
-// //         </div>
-// //     )
-// //
-// //
-// //
-// // }
-// // export default {Lobby, SocketIO};
-// export class Lobby extends React.Component{
-//     constructor(props){
-//         super(props)
-//         this.props.username = props.username;
-//         this.props.game_code = props.game_code;
-//         this.state = {
-//             players: []
-//         };
-//     }
-//     componentDidMount(props){
-//
-//     }
-//     async getPlayers(){
-//         fetch('/api/players')
-//             .then(res =>{
-//                     this.setState(res.json())
-//                 }
-//             )
-//         this.props = {
-//             username: this.state.username,
-//             game_code: this.state.game_code
-//         }
-//         this.state.map(obj =>{
-//             this.setState(
-//                 <div>
-//                     <div key={obj.username}>{obj.username}</div>
-//                     <div key={obj.game_code}>{obj.game_code}</div>
-//                 </div>
-//             );
-//             return this.state;
-//         });
-//     }
-//     render(props){
-//         return(
-//             <div>
-//
-//             </div>
-//         )
-//
-//     }
-//     componentDidUpdate(props){
-//
-//     }
-// }
+import {Form} from 'react-bulma-components';
 import {useEffect, useState, useContext} from "react";
-import {Button, Form,Card, Section} from 'react-bulma-components';
-import {gql, useQuery, useMutation} from '@apollo/client';
-import {SocketContext} from "../index";
+import {SocketContext} from "../App";
 
-const getActivePlayers = gql`
-    query{
-        getActivePlayers {
-            username,
-            game_code
-        }
-    }`;
-const activePlayerMutation  = gql`
-mutation($auth: String){
-    getAuthorizedPlayer(auth: $auth){
-        username, game_code
-    }
-}`;
-let active = [];
-export async function AuthorizedPlayer() {
-}
-export function ActivePlayers() {
-    const {loading, error, data} = useQuery(getActivePlayers);
-    if (loading) return <div>Loading...</div>
-    if (error) return `Error! | ${error.message}`;
+const {Field, Checkbox} = Form;
+const token = JSON.parse(localStorage.getItem('accessToken'));
 
-    return (data.map(({username, game_code}) => {
-        return (
-            <div key={username}>
-                {username}: {game_code}
-            </div>
-        );
-    }));
 
-}
-export function Lobby() {
-    const socket = useContext(SocketContext)
-    socket.connect();
-    const [players, setPlayers] = useState("players go here");
-    const [message, setMessage] = useState("Message goes here");
-    const [getAuthorizedPlayer] = useMutation(activePlayerMutation);
-    // getAuthorizedPlayer({
-    //     variables: {
-    //         auth: `Bearer ${localStorage.getItem('accessToken')}`
-    //     },
-    //     onCompleted: ({getAuthorizedPlayer}) => {
-    //         setPlayers(
-    //             getAuthorizedPlayer.username
-    //         )
-    //     },
-    //
-    // });
-    useEffect(() => {
-        socket.on('connect', () => {
-            console.log(socket.id);
-            setMessage(socket.id)
-            socket.emit('hello', socket.id);
-        });
-        socket.on('connected', (data) => {
+const socketToken = {token: token}
 
-        })
-        socket.on('hello-back', (reply) => {
-            let mapped = reply.map(({username, game_code})=>{
-                return(
-                    <div>
-                    <p key={username}>{username}</p>
-                    <br/>
-                    <p key={game_code}>{game_code}</p>
-                    </div>
-                )
-            })
-            setMessage(mapped);
-        });
-        socket.on('disconnect', (reason) => {
-            console.log(reason);
-        })
-    }, []);
 
-    return (<div>
-            <div key={message}>
-                {message}
-            </div>
-            <div key={players}>
-                {players}
-            </div>
-        </div>
+function Sockets(){
+    const [active, setActive] = useState([]);
+
+
+    return (
+        <SocketContext.Consumer>
+            {(socket)=>{
+                socket.connect();
+                socket.on('connect', () => {
+                    socket.emit('authenticate', socketToken);
+                    console.log(socket.id);
+                });
+                socket.on('authorized', (activePlayers) => {
+                    setActive(activePlayers.map(({username}) => {
+                        return (<Field key={username}>
+                            <Checkbox>{username}</Checkbox>
+                        </Field>)
+                    }))
+                });
+                socket.on('updatedOnDisconnect', (activePlayers) => {
+                    console.log(activePlayers);
+                    setActive(activePlayers.map(({username}) => {
+                        return (<Field key={username}>
+                            <Checkbox>{username}</Checkbox>
+                        </Field>)
+                    }));
+                });
+                socket.on('disconnect', (reason) => {
+                    console.log(reason);
+                })
+                return active;
+            }}
+        </SocketContext.Consumer>
     )
-
-
 }
 
+export function Lobby() {
+    const socket = useContext(SocketContext);
+  return (
+      <div>
+          <Sockets/>
+      </div>
+  )
 
+}
 
 
 
