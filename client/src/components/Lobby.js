@@ -37,16 +37,36 @@ export function Lobby() {
             socket.on('connect', () => {
                 socket.emit('authenticate', socketToken);
             });
-            socket.on('verifyChecked', (username)=>{
-                document.querySelector(`#${username}`).toggleAttribute('checked')
+            socket.on('verifyChecked', (socket_id)=>{
+                document.getElementById(`${socket_id}`).toggleAttribute('checked')
 
             })
             socket.on('authorized', (allPlayers) => {
-                console.log([allPlayers]);
+
                 setActive(allPlayers.map(({username, socket_id})=>{
-                    return (<Field key={socket_id}>
-                            <Form.Checkbox  id={username} key={username} onChange={()=>{
-                                socket.emit('clicked', username);
+                    console.log(socket_id)
+                    return (<Field  key={socket_id}>
+                            <Form.Checkbox  id={socket_id} key={username} onChange={()=>{
+                                socket.emit('clicked', socket_id);
+                            }}>
+                                {username}
+                            </Form.Checkbox>
+                        </Field>)
+                    }));
+                return (<form>
+                    {active}
+                </form>)
+            });
+
+            socket.on('disconnect', async (reason) => {
+                console.log(reason);
+            });
+            socket.on('disconnectedUpdate', (connections)=>{
+                setActive(connections.map(({username, socket_id})=>{
+                        console.log(socket_id)
+                        return (<Field  key={socket_id}>
+                            <Form.Checkbox  id={socket_id} key={username} onChange={()=>{
+                                socket.emit('clicked', socket_id);
                             }}>
                                 {username}
                             </Form.Checkbox>
@@ -57,10 +77,6 @@ export function Lobby() {
                     {active}
                 </form>)
             });
-
-    socket.on('disconnect', async (reason) => {
-        console.log(reason);
-    });
         });
     },[setActive]);
     return (

@@ -25,9 +25,9 @@ app.use(expressjwt({
 
 //http server
 const httpServer = require('http').createServer(app);
+
 //attach websocket server + decode athorization header for each socket connected
 const io = new Server(httpServer, {
-    transports: ['websocket', 'polling'],
     cors: {
         origin: "http://localhost:3000"
     }
@@ -52,13 +52,14 @@ io.on('connection', async (socket)=>{
         connections.add(playerObj);
         io.emit('authorized', Array.from(connections));
     });
-    socket.on('clicked', (username)=>{
-        io.emit('verifyChecked', username);
+    socket.on('clicked', (socket_id)=>{
+        io.emit('verifyChecked', socket_id);
     })
 
     socket.on('disconnect', async(reason)=>{
         console.log(reason);
         connections.delete(playerObj)
+        io.emit('disconnectedUpdate', connections);
     })
 });
 
