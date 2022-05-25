@@ -21,7 +21,6 @@ app.use(expressjwt({
     secret: process.env.JWT_SECRET,
     algorithms: ['HS256'],
     credentialsRequired: false,
-
 }))
 
 //http server
@@ -38,34 +37,30 @@ io.use(authorize({
     secret: process.env.JWT_SECRET,
     handshake: true
 }));
+let connections = new Set()
 //listen for sockets -- return events (socket.on('...')
 io.on('connection', async (socket)=>{
-    console.log(socket.id);
-
-    const activeSockets = Array.from(await io.allSockets());
-    console.log(activeSockets);
-    await ActivePlayers.create({
+    let playerObj = {
         username: socket.decoded_token.username,
         game_code: socket.decoded_token.game_code,
-        socket_id: socket.id
+        socket_id: socket.id,
+        is_host: socket.decoded_token.is_host
+    }
+    const activeSockets = Array.from(await io.allSockets());
+
+    socket.on('authenticate', async()=>{
+        connections.add(playerObj);
+        io.emit('authorized', Array.from(connections));
     });
-
-    const activePlayers = await ActivePlayers.find({socket_id: {$in: activeSockets}});
-    console.log(activePlayers);
-
-    io.emit('authorized', activePlayers);
-
-
-
-
+    socket.on('clicked', (username)=>{
+        io.emit('verifyChecked', username);
+    })
 
     socket.on('disconnect', async(reason)=>{
-        await ActivePlayers.findOneAndDelete({socket_id: socket.id})
         console.log(reason);
-        io.emit('updatedOnDisconnect', (activePlayers))
-        io.removeAllListeners(socket);
+        connections.delete(playerObj)
     })
-})
+});
 
 
 //requires Apollo server to allow Graph Ql usage
@@ -83,12 +78,12 @@ async function startApolloServer(typeDefs, resolvers) {
             origin: ['http://localhost:3000',"https://studio.apollographql.com", "https://assassination-v2.herokuapp.com/"]
         },
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-        context: ({req})=>{
-            const auth = req.headers.authorization || "";
-            return {
-                auth
-            }
-        },
+        // context: ({req})=>{
+        //     const auth = req.headers.authorization || "";
+        //     return {
+        //         auth
+        //     }
+        // },
     });
     //await graphql server start
     await server.start();

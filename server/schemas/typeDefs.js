@@ -7,6 +7,7 @@ const typeDefs = gql`
     username: String!
     email: String
     game_code: String!
+    is_host: Boolean!
     accessToken: String
   }
   type ActivePlayers{
@@ -29,6 +30,7 @@ const typeDefs = gql`
     getPlayersInSocketRoom(username: String!, socket_room:String):[ActivePlayers]
   }
   type Mutation {
+    removeActivePlayer(socket_id: String!): [ActivePlayers],
     getAuthorizedPlayer(token: String, socketID: String): ActivePlayers,
     addActivePlayer(username: String!, game_code: String!, socket_id: String!, socket_room:String!): ActivePlayers,
     registerHost(first_name: String!, last_name: String!, username: String!, email: String!, password: String!): Players,

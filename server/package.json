@@ -4,8 +4,7 @@
     "url": "https://github.com/jeremy0anderson/Assassination-v2/issues"
   },
   "scripts": {
-    "start": "node server.js && npm run poststart",
-    "poststart": "cd ../client && npm start",
+    "start": "node server.js",
     "develop": "nodemon server.js"
   },
   "dependencies": {

@@ -1,18 +1,19 @@
-import {io} from 'socket.io-client';
 import {Form} from 'react-bulma-components';
-import {createContext, useContext, useEffect, useState} from "react";
-import {useMutation, useQuery, gql} from '@apollo/client';
+import {io} from "socket.io-client";
+import React from "react";
 
-const {Input, Checkbox, Field} = Form;
+const token = localStorage.getItem('accessToken');
+export const socket = io('http://localhost:4000', {
+    forceNew: true,
 
-
-
- const socket = io('http://localhost:4000', {
-     autoConnect: true,
-     extraHeaders: {
+    extraHeaders: {
         Authorization: token ? `Bearer ${token}` : ''
-     }
+    }
 });
 
-const SocketContext = createContext(socket);
+export const SocketContext = React.createContext(socket);
+
+
+
+
 

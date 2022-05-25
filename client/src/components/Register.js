@@ -45,9 +45,9 @@ export function Register(){
     const [registerHost] = useMutation(registerHostMutation);
 
      return (
-        <form onSubmit={(e)=>{
+        <form onSubmit={async (e)=>{
        e.preventDefault();
-       await registerHostMutation({
+       await registerHost({
             variables:{
                 first_name: first_name,
                 last_name: last_name,
@@ -59,7 +59,7 @@ export function Register(){
               localStorage.setItem('accessToken', registerHost.accessToken)
               document.location.replace('/lobby');
             }
-        }})}>
+       })}}>
             <Form.Field className="field">
                 <Form.Input
                     name="first_name"

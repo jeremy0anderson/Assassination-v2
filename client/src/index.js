@@ -18,15 +18,15 @@ const authHeader = setContext((_, {headers})=>{
     return {
         headers: {
             ...headers,
-            authorization: token ? `Bearer ${token}` : ''
+            Authorization: token ? `Bearer ${token}` : ''
         }
     }
 });
 
 export const client = new ApolloClient({
-    link: authHeader.concat(httpLink),
     uri: "http://localhost:4000/graphql",
-    cache:new InMemoryCache()
+    cache:new InMemoryCache(),
+    headers: JSON.stringify(token)
 });
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

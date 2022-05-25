@@ -4,19 +4,15 @@ const {Schema, model} = require('mongoose');
 const activePlayerSchema = new Schema({
     username: {
         type: String,
-        required:"Player required"
+        required:"Player required",
     },
     game_code: {
         type: String,
         required:"game code or room required"
     },
     socket_id: {
-        type: String
-    },
-    socket_room:{
-
+        type: String,
     }
-
 })
 const ActivePlayers = model('activePlayers', activePlayerSchema);
 
