@@ -57,31 +57,53 @@ const player = await verify(accessToken, process.env.JWT_SECRET, {expiresIn:"1d"
         console.log(player);
             return player;
         },
+        removeActivePlayer: async(parent, args)=>{
+            await ActivePlayers.findOneAndDelete({socket_id: args.socket_id});
+            const currentPlayers = await ActivePlayers.find({});
+            return currentPlayers;
+        },
         addActivePlayer: async (parent, args) => {
             return ActivePlayers.create({
                 username: args.username,
                 game_code: args.game_code,
                 socket_id: args.socket_id,
+                is_host: args.is_host
             })
         },
         registerHost: async (parent, args) => {
-            const newHost = new Players({
+            const newHost = await Players.create({
                 first_name: args.first_name,
                 last_name: args.last_name,
                 username: args.username,
                 email: args.email,
                 password: args.password,
+                is_host: true,
                 game_code: Math.random().toString(36).slice(2,8)
             });
-            return await newHost.save();
+            const accessToken = await getToken({username: newHost.username, game_code: newHost.game_code,_id: newHost._id, is_host: newHost.is_host});
+            return {
+                id: newHost._id,
+                username: newHost.username,
+                game_code: newHost.game_code,
+                is_host: newHost.is_host,
+                accessToken: accessToken
+            }
 
         },
         registerPlayer: async(parent,args)=>{
-            const newPlayer = new Players({
+            const newPlayer = {
                 username: args.username,
-                game_code: args.game_code
-            });
-            return await newPlayer.save();
+                game_code: args.game_code,
+                is_host: false
+            };
+            const accessToken = await getToken({username: newPlayer.username, game_code: newPlayer.game_code,_id: newPlayer._id, is_host: newPlayer.is_host});
+            return {
+                id: newPlayer._id,
+                username: newPlayer.username,
+                game_code: newPlayer.game_code,
+                is_host: newPlayer.is_host,
+                accessToken: accessToken
+            }
         },
         login: async (parent, args) =>{
             const player = await Players.findOne({username: args.username});
@@ -93,11 +115,12 @@ const player = await verify(accessToken, process.env.JWT_SECRET, {expiresIn:"1d"
             if (!validPassword) {
                 throw new Error("Invalid Password");
             }
-            const accessToken = await getToken({username: player.username, game_code: player.game_code,_id: player._id});
+            const accessToken = await getToken({username: player.username, game_code: player.game_code,_id: player._id, is_host: player.is_host});
             return {
                 id: player._id,
                 username: player.username,
                 game_code: player.game_code,
+                is_host: player.is_host,
                 accessToken: accessToken
             }
         }

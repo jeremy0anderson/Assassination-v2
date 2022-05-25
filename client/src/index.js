@@ -13,33 +13,20 @@ const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     credentials: "same-origin"
 })
+
 const authHeader = setContext((_, {headers})=>{
     return {
         headers: {
             ...headers,
-            authorization: token ? `Bearer ${token}` : ''
+            Authorization: token ? `Bearer ${token}` : ''
         }
     }
 });
-const socket = io("http://localhost:4000", {
-        // transports: ['websocket', 'polling'],
-        autoConnect: false,
-        reconnection: true,
-        reconnectionAttempts: 10,
-        reconnectionDelay: 500,
-        extraHeaders: {
-            "authorization": token
-        }
-
-
-    });
-export const SocketContext = createContext(socket);
-console.log(socket.id)
 
 export const client = new ApolloClient({
-    link: authHeader.concat(httpLink),
     uri: "http://localhost:4000/graphql",
-    cache:new InMemoryCache()
+    cache:new InMemoryCache(),
+    headers: JSON.stringify(token)
 });
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
