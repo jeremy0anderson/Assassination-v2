@@ -15,8 +15,10 @@ Go to https://assassination-multiplayer.herokuapp.com/ and click on the "Host a 
 
     ![A screenshot of the Assassination Home Screen](public\images\home-page-screen-shot.png)
 
-## Screenshot
+## Screenshots
 <img width="1440" alt="Screen Shot 2022-04-18 at 9 56 32 PM" src="https://user-images.githubusercontent.com/93904532/163917210-00cf268b-758a-4cd8-87ef-66a5783ea515.png">
+
+<img width="246" alt="king-pg-1" src="https://user-images.githubusercontent.com/94089960/170337014-287ad504-215f-4cbb-938d-fffc4817fc0f.png">
 
 ## Credits
 
